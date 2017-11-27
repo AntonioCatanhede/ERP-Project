@@ -1,6 +1,7 @@
 # implement commonly used functions here
 
 import random
+import string  # EZTET MAJD ELTÜNTESSÜk
 
 
 # generate and return a unique and random string
@@ -20,9 +21,26 @@ def generate_random(table):
     Returns:
         Random and unique string
     """
+    while True:
+        generated = ''
 
-    generated = ''
+        for k in range(2):
+            generated = generated + (random.choice(string.ascii_uppercase))
+        for k in range(2):
+            generated = generated + (random.choice(string.ascii_lowercase))
+        for k in range(2):
+            generated = generated + (random.choice(string.digits))
+        for k in range(2):
+            generated = generated + (random.choice('!@#$%^&*()?'))
+        
+        for i in table:
+            if generated not in i:
+                return generated
 
-    # your code
 
-    return generated
+def convert_to_list(csv_file):
+    list1 = []
+    with open(csv_file, "r") as f:
+        for line in f.readlines():
+            list1.append(line.strip("\n").split(";"))
+    return list1

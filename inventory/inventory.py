@@ -16,6 +16,8 @@ import data_manager
 # common module
 import common
 
+the_list = data_manager.get_table_from_file("inventory.csv")
+
 
 def start_module():
     """
@@ -26,10 +28,18 @@ def start_module():
     Returns:
         None
     """
-
-    # you code
-
-    pass
+    print_menu("Inventory", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    menu_choose = int(input("Please enter a number"))
+    if menu_choose == 1:
+        show_table(the_list)
+    elif menu_choose == 2:
+        add(the_list)
+    elif menu_choose == 3:
+        id = input("Enter the id")
+        remove(the_list, id)
+    elif menu_choose == 4:
+        id = input("Enter the id")
+        update(the_list)
 
 
 def show_table(table):
@@ -59,8 +69,9 @@ def add(table):
         Table with a new record
     """
 
-    # your code
-
+    table.append(get_inputs(["name: string", "manufacturer: string", "purchase_date: number (year)",
+                             "durability: number (year)"], "Please provide the console informations"))
+    table[:-1].insert(0, generate_random(the_list))
     return table
 
 
@@ -76,7 +87,9 @@ def remove(table, id_):
         Table without specified record.
     """
 
-    # your code
+    for i in table:
+        if _id in i:
+            table.remove(i)
 
     return table
 
@@ -92,9 +105,12 @@ def update(table, id_):
     Returns:
         table with updated record
     """
-
-    # your code
-
+    for i in table:
+        if _id in i:
+            for k in range(1, len(i)):
+                i.remove(i[k])
+            i.append(get_inputs(["name: string", "manufacturer: string", "purchase_date: number (year)",
+                                 "durability: number (year)"], "Please provide the console informations"))
     return table
 
 

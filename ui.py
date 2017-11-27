@@ -9,7 +9,7 @@ def print_table(table, title_list):
         |   0    | Counter strike |    fps  |
         |--------|----------------|---------|
         |   1    |       fo       |    fps  |
-        \-----------------------------------/
+        \------------------------/-----------
 
     Args:
         table: list of lists - table to display
@@ -18,10 +18,6 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
-    # your goes code
-
-    pass
 
 
 def print_result(result, label):
@@ -35,10 +31,8 @@ def print_result(result, label):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
-    # your code
-
-    pass
+    print(result)
+    print(label)
 
 
 def print_menu(title, list_options, exit_message):
@@ -62,9 +56,11 @@ def print_menu(title, list_options, exit_message):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    print(title)
+    for i in range(1,len(list_options)):
+        print("\t (", i, ")", list_options[i - 1])
+    print("(0)", exit_message)
 
-    pass
 
 
 def get_inputs(list_labels, title):
@@ -88,7 +84,10 @@ def get_inputs(list_labels, title):
     """
     inputs = []
 
-    # your code
+    print(title)
+    for i in range(1,len(list_labels)):
+        temp_var=input(list_labels[i-1])
+        inputs.append(temp_var)
 
     return inputs
 
@@ -107,6 +106,5 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    print(message)
 
-    pass
