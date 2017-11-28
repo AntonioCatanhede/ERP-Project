@@ -1,7 +1,6 @@
 # implement commonly used functions here
 
 import random
-import string  # EZTET MAJD ELTÜNTESSÜk
 import ui
 
 
@@ -68,5 +67,6 @@ def common_update(table, list, id_):
             table[i] = []
             new_item = (ui.get_inputs(list, "Please provide the console informations"))
             new_item.insert(0, id_)
-            table[i].append(new_item)
+            for items in new_item:
+                table[i].append(items)
     return table

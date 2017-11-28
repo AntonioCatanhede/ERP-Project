@@ -4,12 +4,12 @@ def print_table(table, title_list):
     """
     Prints table with data. Sample output:
         /-----------------------------------\
-        |   id   |      title     |  type   |
+        |   id   |      title     | type    |
         |--------|----------------|---------|
         |   0    | Counter strike |    fps  |
         |--------|----------------|---------|
         |   1    |       fo       |    fps  |
-        \------------------------/-----------
+        \-----------------------------------/
 
     Args:
         table: list of lists - table to display
@@ -18,6 +18,24 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
+    longest_string = ""
+    for i in range(len(table)):
+        for k in table[i]:
+            if len(k) > len(longest_string):
+                longest_string = k
+    longest_string = len(longest_string)
+    print("/" + "- " * (longest_string * len(table[0])) + "\\")
+    print("|", end='')
+    for i in title_list:
+        multiply = int((longest_string - len(i)) // 2)
+        print(multiply * " " + i + multiply * " " + "|", end="")
+    print("\n|", end="")
+    for i in range(len(table)):
+        for k in table[i]:
+            multiply = int((longest_string - len(k)) // 2)
+            print(multiply * " " + k + multiply * " " + "|", end='')
+        print("\n|", end="")
+    print("\\" + "- " * (longest_string * len(table[0])) + "/")
 
 
 def print_result(result, label):
@@ -57,10 +75,9 @@ def print_menu(title, list_options, exit_message):
     """
 
     print(title)
-    for i in range(1,len(list_options)+1):
-        print("\t ("+str(i)+")", list_options[i - 1])
+    for i in range(1, len(list_options) + 1):
+        print("\t (" + str(i) + ")", list_options[i - 1])
     print("\t (0)", exit_message)
-
 
 
 def get_inputs(list_labels, title):
@@ -85,9 +102,9 @@ def get_inputs(list_labels, title):
     inputs = []
 
     print(title)
-    for i in range(1,len(list_labels)+1):
-        print(list_labels[i-1]+" : ", end="")
-        temp_var=input()
+    for i in range(1, len(list_labels) + 1):
+        print(list_labels[i - 1] + " : ", end="")
+        temp_var = input()
         inputs.append(temp_var)
 
     return inputs
@@ -108,4 +125,3 @@ def print_error_message(message):
     """
 
     print(message)
-

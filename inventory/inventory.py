@@ -19,7 +19,6 @@ import common
 the_list = data_manager.get_table_from_file("inventory/inventory.csv")
 menu_list = ["name:", "manufacturer:", "purchase_date:", "durability:"]
 
-
 def start_module():
     """
     Starts this module and displays its menu.
@@ -32,18 +31,26 @@ def start_module():
     ui.print_menu("Inventory", ["show_table", "add", "remove", "update"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
-        show_table(the_list)
+        show_table(the_list,menu_list)
+        start_module()
     elif menu_choose == 2:
         add(the_list)
+        start_module()
     elif menu_choose == 3:
         id = input("Enter the id")
         remove(the_list, id)
+        start_module()
     elif menu_choose == 4:
         id = input("Enter the id")
-        update(the_list,menu_list, id)
+        update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 0:
+        return
+    else:
+        raise KeyError("There is no such options")
 
 
-def show_table(table):
+def show_table(table,menu):
     """
     Display a table
 
@@ -54,9 +61,7 @@ def show_table(table):
         None
     """
 
-    # your code
-
-    pass
+    ui.print_table(table, menu)
 
 
 def add(table):
@@ -70,7 +75,7 @@ def add(table):
         Table with a new record
     """
 
-    return common.common_add(table,menu_list)
+    return common.common_add(table, menu_list)
 
 
 def remove(table, id_):
@@ -84,11 +89,10 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
-    return common.common_remove(table,id_)
+    return common.common_remove(table, id_)
 
 
-
-def update(table, id_):
+def update(table,list, id_):
     """
     Updates specified record in the table. Ask users for new data.
 
@@ -97,9 +101,9 @@ def update(table, id_):
         id_ (str): id of a record to update
 
     Returns:
-        table with updated recordá
+        table with updated record
     """
-    return common.common_update(table,list,id_)
+    return common.common_update(table, list, id_)
 
 
 # special functions:
