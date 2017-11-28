@@ -19,6 +19,7 @@ import common
 the_list = data_manager.get_table_from_file("inventory/inventory.csv")
 menu_list = ["name:", "manufacturer:", "purchase_date:", "durability:"]
 
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -61,7 +62,7 @@ def show_table(table):
     Returns:
         None
     """
-    menu_list.insert(0,"id")
+    menu_list.insert(0, "id")
     ui.print_table(table, menu_list)
 
 
@@ -93,7 +94,7 @@ def remove(table, id_):
     return common.common_remove(table, id_)
 
 
-def update(table,list, id_):
+def update(table, list, id_):
     """
     Updates specified record in the table. Ask users for new data.
 

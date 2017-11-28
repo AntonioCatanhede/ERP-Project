@@ -10,7 +10,7 @@
 
 # importing everything you need
 import os
-# User interface module 
+# User interface module
 import ui
 # data manager module
 import data_manager
@@ -101,7 +101,7 @@ def remove(table, id_):
     return common.common_remove(table, id_)
 
 
-def update(table,list, id_):
+def update(table, list, id_):
     """
     Updates specified record in the table. Ask users for new data.
 
