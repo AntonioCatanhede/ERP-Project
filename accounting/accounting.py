@@ -10,12 +10,15 @@
 
 # importing everything you need
 import os
-# User interface module
+# User interface module 
 import ui
 # data manager module
 import data_manager
 # common module
 import common
+
+the_list = data_manager.get_table_from_file("accounting/items.csv")
+menu_list = ["month:", "day:", "year:", "type:", "amount:"]
 
 
 def start_module():
@@ -28,9 +31,27 @@ def start_module():
         None
     """
 
-    # you code
-
-    pass
+    ui.print_menu("Accounting", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    menu_choose = int(input("Please enter a number: "))
+    if menu_choose == 1:
+        show_table(the_list)
+        menu_list.remove("id")
+        start_module()
+    elif menu_choose == 2:
+        add(the_list)
+        start_module()
+    elif menu_choose == 3:
+        id = input("Enter the id: ")
+        remove(the_list, id)
+        start_module()
+    elif menu_choose == 4:
+        id = input("Enter the id: ")
+        update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 0:
+        return
+    else:
+        raise KeyError("There is no such options")
 
 
 def show_table(table):
@@ -43,10 +64,8 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
-
-    pass
+    menu_list.insert(0, "id")
+    ui.print_table(table, menu_list)
 
 
 def add(table):
@@ -62,7 +81,7 @@ def add(table):
 
     # your code
 
-    return table
+    return common.common_add(table, menu_list)
 
 
 def remove(table, id_):
@@ -79,10 +98,10 @@ def remove(table, id_):
 
     # your code
 
-    return table
+    return common.common_remove(table, id_)
 
 
-def update(table, id_):
+def update(table,list, id_):
     """
     Updates specified record in the table. Ask users for new data.
 
@@ -96,7 +115,7 @@ def update(table, id_):
 
     # your code
 
-    return table
+    return common.common_update(table, list, id_)
 
 
 # special functions:

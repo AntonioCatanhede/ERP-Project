@@ -31,17 +31,18 @@ def start_module():
     ui.print_menu("Inventory", ["show_table", "add", "remove", "update"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
-        show_table(the_list,menu_list)
+        show_table(the_list)
+        menu_list.remove("id")
         start_module()
     elif menu_choose == 2:
         add(the_list)
         start_module()
     elif menu_choose == 3:
-        id = input("Enter the id")
+        id = input("Enter the id: ")
         remove(the_list, id)
         start_module()
     elif menu_choose == 4:
-        id = input("Enter the id")
+        id = input("Enter the id: ")
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 0:
@@ -50,7 +51,7 @@ def start_module():
         raise KeyError("There is no such options")
 
 
-def show_table(table,menu):
+def show_table(table):
     """
     Display a table
 
@@ -60,8 +61,8 @@ def show_table(table,menu):
     Returns:
         None
     """
-
-    ui.print_table(table, menu)
+    menu_list.insert(0,"id")
+    ui.print_table(table, menu_list)
 
 
 def add(table):

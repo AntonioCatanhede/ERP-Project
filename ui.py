@@ -27,12 +27,12 @@ def print_table(table, title_list):
     print("/" + "- " * (longest_string * len(table[0])) + "\\")
     print("|", end='')
     for i in title_list:
-        multiply = int((longest_string - len(i)) // 2)
+        multiply = int(((longest_string - len(i)) // 2) + ((longest_string - len(i)) % 2))
         print(multiply * " " + i + multiply * " " + "|", end="")
     print("\n|", end="")
     for i in range(len(table)):
         for k in table[i]:
-            multiply = int((longest_string - len(k)) // 2)
+            multiply = int(((longest_string - len(k)) // 2) + ((longest_string - len(k)) % 2))
             print(multiply * " " + k + multiply * " " + "|", end='')
         print("\n|", end="")
     print("\\" + "- " * (longest_string * len(table[0])) + "/")
