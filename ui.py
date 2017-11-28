@@ -58,8 +58,8 @@ def print_menu(title, list_options, exit_message):
 
     print(title)
     for i in range(1,len(list_options)+1):
-        print("\t (", i, ")", list_options[i - 1])
-    print("(0)", exit_message)
+        print("\t ("+str(i)+")", list_options[i - 1])
+    print("\t (0)", exit_message)
 
 
 
@@ -86,7 +86,8 @@ def get_inputs(list_labels, title):
 
     print(title)
     for i in range(1,len(list_labels)+1):
-        temp_var=input(list_labels[i-1])
+        print(list_labels[i-1]+" : ", end="")
+        temp_var=input()
         inputs.append(temp_var)
 
     return inputs

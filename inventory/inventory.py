@@ -16,7 +16,8 @@ import data_manager
 # common module
 import common
 
-the_list = data_manager.get_table_from_file("inventory.csv")
+the_list = data_manager.get_table_from_file("inventory/inventory.csv")
+menu_list = ["name:", "manufacturer:", "purchase_date:", "durability:"]
 
 
 def start_module():
@@ -29,7 +30,7 @@ def start_module():
         None
     """
     ui.print_menu("Inventory", ["show_table", "add", "remove", "update"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number"))
+    menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
     elif menu_choose == 2:
@@ -39,7 +40,7 @@ def start_module():
         remove(the_list, id)
     elif menu_choose == 4:
         id = input("Enter the id")
-        update(the_list,id)
+        update(the_list,menu_list, id)
 
 
 def show_table(table):
@@ -69,11 +70,7 @@ def add(table):
         Table with a new record
     """
 
-    new_item =(ui.get_inputs(["name: string", "manufacturer: string", "purchase_date: number (year)",
-                             "durability: number (year)"], "Please provide the console informations"))
-    new_item.insert(0, common.generate_random(the_list))
-    table.append(new_item)
-    return table
+    return common.common_add(table,menu_list)
 
 
 def remove(table, id_):
@@ -87,12 +84,8 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
+    return common.common_remove(table,id_)
 
-    for i in table:
-        if id_ in i:
-            table.remove(i)
-
-    return table
 
 
 def update(table, id_):
@@ -106,15 +99,7 @@ def update(table, id_):
     Returns:
         table with updated record
     """
-    for i in range(len(table)):
-        if id_ in table[i]:
-            table[i]=[]
-            new_item=(ui.get_inputs(["name: string", "manufacturer: string", "purchase_date: number (year)",
-                                      "durability: number (year)"], "Please provide the console informations"))
-            new_item.insert(0,id_)
-            table[i].append(new_item)
-    print(new_item)
-    return table
+    return common.common_update(table,list,id_)
 
 
 # special functions:

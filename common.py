@@ -2,6 +2,7 @@
 
 import random
 import string  # EZTET MAJD ELTÜNTESSÜk
+import ui
 
 
 # generate and return a unique and random string
@@ -25,14 +26,14 @@ def generate_random(table):
         generated = ''
 
         for k in range(2):
-            generated = generated + (random.choice(string.ascii_uppercase))
+            generated = generated + (random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
         for k in range(2):
-            generated = generated + (random.choice(string.ascii_lowercase))
+            generated = generated + (random.choice("abcdefghijklmnopqrstuvwxyz"))
         for k in range(2):
-            generated = generated + (random.choice(string.digits))
+            generated = generated + (random.choice("0123456789"))
         for k in range(2):
             generated = generated + (random.choice('!@#$%^&*()?'))
-        
+
         for i in table:
             if generated not in i:
                 return generated
@@ -44,3 +45,28 @@ def convert_to_list(csv_file):
         for line in f.readlines():
             list1.append(line.strip("\n").split(";"))
     return list1
+
+
+def common_add(table, list):
+    new_item = (ui.get_inputs(list, "Please provide the console informations"))
+    new_item.insert(0, generate_random(table))
+    table.append(new_item)
+    return table
+
+
+def common_remove(table, id_):
+    for i in table:
+        if id_ in i:
+            table.remove(i)
+
+    return table
+
+
+def common_update(table, list, id_):
+    for i in range(len(table)):
+        if id_ in table[i]:
+            table[i] = []
+            new_item = (ui.get_inputs(list, "Please provide the console informations"))
+            new_item.insert(0, id_)
+            table[i].append(new_item)
+    return table
