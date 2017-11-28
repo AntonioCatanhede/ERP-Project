@@ -97,7 +97,7 @@ def update(table, id_):
         id_ (str): id of a record to update
 
     Returns:
-        table with updated record
+        table with updated recordá
     """
     return common.common_update(table,list,id_)
 
