@@ -29,7 +29,8 @@ def start_module():
     Returns:
         None
     """
-    ui.print_menu("Inventory", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    ui.print_menu("Inventory", ["show_table", "add", "remove", "update", "avaliable items",
+                                "average durability by manufacturers"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -47,6 +48,12 @@ def start_module():
         id = ui.get_inputs(["ID: "], "Please enter an id: ")
         id = id[0]
         update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 5:
+        get_available_items(the_list)
+        start_module()
+    elif menu_choose == 6:
+        get_average_durability_by_manufacturers(the_list)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("inventory/inventory.csv", the_list)
@@ -122,7 +129,11 @@ def get_available_items(table):
 
     # your code
 
-    pass
+    avaliable_items = []
+    for line in table:
+        if (line[3] + line[4]) >= 2017:
+            avaliable_items.append(line)
+    return avaliable_items
 
 
 # the question: What are the average durability times for each manufacturer?
@@ -133,4 +144,14 @@ def get_average_durability_by_manufacturers(table):
 
     # your code
 
+    ''' manufacturer_list = []
+    manufacturer_count = {}
+    for line in table:
+        manufacturer_list.append(line[2])
+    for manufacturers in manufacturer_list:
+        if manufacturers in manufacturer_count:
+            manufacturer_count[manufacturers] += 1
+        else:
+            manufacturer_count[manufacturers] = 1
+    return manufacturer_count '''
     pass
