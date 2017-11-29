@@ -30,7 +30,7 @@ def start_module():
 
     # your code
 
-    ui.print_menu("Human resources", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    ui.print_menu("Human resources", ["show_table", "add", "remove", "update", "oldest person", "closest to the average age"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -48,6 +48,12 @@ def start_module():
         id = ui.get_inputs(["ID: "], "Please enter an id: ")
         id = id[0]
         update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 5:
+        get_oldest_person(the_list)
+        start_module()
+    elif menu_choose == 6:
+        get_persons_closest_to_average(the_list)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("hr/person.csv", the_list)
@@ -86,7 +92,14 @@ def add(table):
 
     # your code
 
-    return common.common_add(table, menu_list)
+    while True:
+        returnable_list = common.common_add(table, menu_list)
+
+        if (returnable_list[-1][1]).isdigit() == False and (returnable_list[-1][2]).isdigit():
+            return returnable_list
+        else:
+            the_list.remove(the_list[-1])
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 def remove(table, id_):
@@ -132,7 +145,18 @@ def get_oldest_person(table):
 
     # your code
 
-    pass
+    oldest_person_list = []
+    oldest_names = []
+    for i in table:
+        oldest_person_list.append(i[2])
+    oldest_person_age = min(oldest_person_list)
+    for i in table:
+        if oldest_person_age in i:
+            oldest_names.append(i[1])
+    if len(oldest_names) == 1:
+        return oldest_names[0]
+    else:
+        return oldest_names
 
 
 # the question: Who is the closest to the average age ?
@@ -141,4 +165,14 @@ def get_persons_closest_to_average(table):
 
     # your code
 
-    pass
+    ''' name = []
+    birth = []
+    closest = 0
+    avg_list = []
+    for i in table:
+        birth.append([i[2], i[1]])
+    for i in birth:
+        avg_list.append(birth[0])
+    avg = sum(avg_list)/len(avg_list)
+    
+ '''
