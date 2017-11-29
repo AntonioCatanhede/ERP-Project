@@ -31,7 +31,8 @@ def start_module():
         None
     """
 
-    ui.print_menu("Sales", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    ui.print_menu("Sales", ["show_table", "add", "remove", "update",
+                            "lowest price item", "get item between date"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -49,6 +50,12 @@ def start_module():
         id = ui.get_inputs(["ID: "], "Please enter an id: ")
         id = id[0]
         update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 5:
+        print(get_lowest_price_item_id(the_list))
+        start_module()
+    elif menu_choose == 6:
+        print(get_items_sold_between(the_list, "12", "4", "2015", "4", "19", "2017"))
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("sales/sales.csv", the_list)
@@ -83,7 +90,24 @@ def add(table):
         Table with a new record
     """
 
-    return common.common_add(table, menu_list)
+    while True:
+        returnable_list = common.common_add(table, menu_list)
+
+        if (returnable_list[-1][1]).isdigit() == False and \
+            (returnable_list[-1][2]).isdigit() and \
+            (returnable_list[-1][3]).isdigit() and \
+            int((returnable_list[-1][3])) > 0 and \
+            int((returnable_list[-1][3])) < 13 and \
+            (returnable_list[-1][4]).isdigit() and\
+            int((returnable_list[-1][4])) > 0 and \
+            int((returnable_list[-1][4])) < 32 and \
+            (returnable_list[-1][5]).isdigit() and \
+            int((returnable_list[-1][5])) < 3000 and \
+                int((returnable_list[-1][5])) > 0:
+                return returnable_list
+        else:
+            the_list.remove(the_list[-1])
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 def remove(table, id_):
@@ -113,9 +137,27 @@ def update(table, list, id_):
         table with updated record
     """
 
-    # your code
+    while True:
+        returnable_list = common.common_update(table, list, id_)
 
-    return common.common_update(table, list, id_)
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
+        if (comparable_list[1]).isdigit() == False and \
+            (comparable_list[2]).isdigit() and \
+            (comparable_list[3]).isdigit() and \
+            int((comparable_list[3])) > 0 and \
+            int((comparable_list[3])) < 13 and \
+            (comparable_list[4]).isdigit() and\
+            int((comparable_list[4])) > 0 and \
+            int((comparable_list[4])) < 32 and \
+            (comparable_list[5]).isdigit() and \
+            int((comparable_list[5])) < 3000 and \
+                int((comparable_list[5])) > 0:
+            return returnable_list
+        else:
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 # special functions:
@@ -125,16 +167,32 @@ def update(table, list, id_):
 # return type: string (id)
 # if there are more than one with the lowest price, return the first by descending alphabetical order
 def get_lowest_price_item_id(table):
-
-    # your code
-
-    pass
+    prices = []
+    name_list = []
+    for line in table:
+        prices.append(line[2])
+    min_price = min(prices)
+    print(min_price)
+    for line in table:
+        if min_price in line:
+            name_list.append(line[1])
+    name_list.sort(reverse=False)
+    for line in table:
+        if name_list[0] in line:
+            return line[0]
 
 
 # the question: Which items are sold between two given dates ? (from_date < sale_date < to_date)
 # return type: list of lists (the filtered table)
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
 
-    # your code
-
-    pass
+    returnable_list = []
+    datefrom = int(str(year_from) + str(month_from) + str(day_from))
+    dateto = int(str(year_to) + str(month_to) + str(day_to))
+    print(datefrom)
+    print(dateto)
+    for line in table:
+        date = int(str(line[5]) + str(line[3]) + str(line[4]))
+        if date > datefrom and date < dateto:
+            returnable_list.append(line)
+    return returnable_list
