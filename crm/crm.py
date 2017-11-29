@@ -29,7 +29,8 @@ def start_module():
         None
     """
 
-    ui.print_menu("Customers", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    ui.print_menu("Customers", ["show_table", "add", "remove", "update",
+                                "longest name id", "subscribers"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -47,6 +48,12 @@ def start_module():
         id = ui.get_inputs(["ID: "], "Please enter an id: ")
         id = id[0]
         update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 5:
+        print(get_longest_name_id(the_list))
+        start_module()
+    elif menu_choose == 6:
+        print(get_subscribed_emails(the_list))
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("crm/customers.csv", the_list)
@@ -121,16 +128,31 @@ def update(table, list, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first by descending alphabetical order
 def get_longest_name_id(table):
-
-    # your code
-
-    pass
+    names = []
+    longest_name = ""
+    longest_names = []
+    longest_name_id = []
+    for line in table:
+        names.append(line[1])
+    for name in names:
+        if len(name) > len(longest_name):
+            longest_name = name
+    longest_names.append(longest_name)
+    for name in names:
+        if len(name) == len(longest_name):
+            longest_names.append(name)
+    longest_names.sort(reverse=False)
+    for items in longest_names:
+        for line in table:
+            if items in line:
+                return line[0]
 
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
 def get_subscribed_emails(table):
-
-    # your code
-
-    pass
+    list = []
+    for line in table:
+        if line[3] == "1":
+            list.append(line[2] + ";" + line[1])
+    return list
