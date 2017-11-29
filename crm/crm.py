@@ -16,7 +16,7 @@ import data_manager
 import common
 
 the_list = data_manager.get_table_from_file("crm/customers.csv")
-menu_list = ["name:", "email:", "boolean:"]
+menu_list = ["name:", "email:", "subscribed:"]
 
 
 def start_module():
@@ -39,14 +39,17 @@ def start_module():
         add(the_list)
         start_module()
     elif menu_choose == 3:
-        id = input("Enter the id: ")
+        id = ui.get_inputs(["ID: "], "Please enter an id: ")
+        id = id[0]
         remove(the_list, id)
         start_module()
     elif menu_choose == 4:
-        id = input("Enter the id: ")
+        id = ui.get_inputs(["ID: "], "Please enter an id: ")
+        id = id[0]
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 0:
+        data_manager.write_table_to_file("crm/customers.csv", the_list)
         return
     else:
         raise KeyError("There is no such options")
