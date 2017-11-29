@@ -18,24 +18,23 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-    longest_string = ""
-    for i in range(len(table)):
-        for k in table[i]:
-            if len(k) > len(longest_string):
-                longest_string = k
-    longest_string = len(longest_string)
-    print("/" + "- " * (longest_string * len(table[0])) + "\\")
-    print("|", end='')
-    for i in title_list:
-        multiply = int(((longest_string - len(i)) // 2) + ((longest_string - len(i)) % 2))
-        print(multiply * " " + i + multiply * " " + "|", end="")
-    print("\n|", end="")
-    for i in range(len(table)):
-        for k in table[i]:
-            multiply = int(((longest_string - len(k)) // 2) + ((longest_string - len(k)) % 2))
-            print(multiply * " " + k + multiply * " " + "|", end='')
-        print("\n|", end="")
-    print("\\" + "- " * (longest_string * len(table[0])) + "/")
+    table.insert(0, title_list)
+
+    maxlength = []
+    for column in range(len(table[0])):
+        length = 0
+        for row in range(len(table)):
+            if len(str(table[row][column])) > length:
+                length = len(str(table[row][column]))
+        maxlength.append(length)
+
+    for row_i in range(len(table)):
+        row = table[row_i]
+        for cell_j in range(len(row)):
+            cell = row[cell_j]
+            width = maxlength[cell_j]
+            print(' | ' + cell.center(width), end='')
+        print(' |')
 
 
 def print_result(result, label):
