@@ -89,11 +89,12 @@ def add(table):
         returnable_list = common.common_add(table, menu_list)
 
         if (returnable_list[-1][1]).isdigit() == False and \
-        (returnable_list[-1][2]).isdigit() == False and \
-        (returnable_list[-1][3]).isdigit() and \
-        (returnable_list[-1][4]).isdigit():
+            (returnable_list[-1][2]).isdigit() == False and \
+            (returnable_list[-1][3]).isdigit() and \
+                (returnable_list[-1][4]).isdigit():
             return returnable_list
         else:
+            the_list.remove(the_list[-1])
             ui.print_error_message("\nYou entered wrong inputs\n")
 
 
@@ -108,7 +109,7 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
-    
+
     return common.common_remove(table, id_)
 
 
@@ -123,8 +124,20 @@ def update(table, list, id_):
     Returns:
         table with updated record
     """
+    while True:
+        returnable_list = common.common_update(table, list, id_)
 
-    return common.common_update(table, list, id_)
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
+        if (comparable_list[1]).isdigit() == False and \
+            (comparable_list[2]).isdigit() == False and \
+            (comparable_list[3]).isdigit() and \
+                (comparable_list[4]).isdigit():
+            return returnable_list
+        else:
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 # special functions:
