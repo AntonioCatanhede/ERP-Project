@@ -51,12 +51,12 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        get_counts_by_manufacturers(the_list)
+        ui.print_result(get_counts_by_manufacturers(the_list), "Games by manufacturer:")
         start_module()
     elif menu_choose == 6:
         manufacturer_input = ui.get_inputs(["Enter a manufacturer name : "], "The avarage game in stock")
         manufacturer_input = manufacturer_input[0]
-        get_average_by_manufacturer(the_list, manufacturer_input)
+        ui.print_result(get_average_by_manufacturer(the_list, manufacturer_input), "The avarage games in stock:")
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("store/games.csv", the_list)
@@ -153,7 +153,6 @@ def get_counts_by_manufacturers(table):
             manufacturer_count[manufacturers] += 1
         else:
             manufacturer_count[manufacturers] = 1
-    ui.print_result(manufacturer_count, "Games by manufacturer:")
     return manufacturer_count
 
 
@@ -167,6 +166,8 @@ def get_average_by_manufacturer(table, manufacturer):
             average_list.append(line[4])
     for item in average_list:
         sum_items += int(item)
-    average = sum_items / len(average_list)
-    ui.print_result(average, "The avarage games in stock:")
+    if len(average_list) == 0:
+        return("No item by the given manufacturer")
+    else:
+        average = sum_items / len(average_list)
     return average

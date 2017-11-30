@@ -51,10 +51,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        get_available_items(the_list)
+        ui.print_result(get_available_items(the_list), "Avaible items: ")
         start_module()
     elif menu_choose == 6:
-        get_average_durability_by_manufacturers(the_list)
+        ui.print_result(get_average_durability_by_manufacturers(the_list), "The avarage durability: ")
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("inventory/inventory.csv", the_list)
@@ -158,10 +158,11 @@ def get_available_items(table):
             for item in line:
                 one_line.append(item)
             avaliable_items.append(one_line)
+    for i in range(len(avaliable_items)):
+        avaliable_items[i] = avaliable_items[i][0:5]
     for line in range(len(avaliable_items)):
         avaliable_items[line][3] = int(avaliable_items[line][3])
         avaliable_items[line][4] = int(avaliable_items[line][4])
-    ui.print_result(avaliable_items, "Avaible items: ")
     return avaliable_items
 
 
@@ -183,5 +184,4 @@ def get_average_durability_by_manufacturers(table):
                 counter += 1
                 sum_num += int(line[4])
         returnable_dict[manufacturer] = sum_num / counter
-    ui.print_result(returnable_dict, "The avarage durability: ")
     return returnable_dict

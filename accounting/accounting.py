@@ -54,11 +54,12 @@ def start_module():
         start_module()
     elif menu_choose == 5:
         which_year_max(the_list)
+        ui.print_result(which_year_max(the_list), "The year is:")
         start_module()
     elif menu_choose == 6:
         year_input = ui.get_inputs(["Enter the year: "], "")
         year_input = year_input[0]
-        avg_amount(the_list, year_input)
+        ui.print_result(avg_amount(the_list, year_input), "The avarage is:")
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("accounting/items.csv", the_list)
@@ -151,7 +152,6 @@ def which_year_max(table):
     maximum = max(year_profit.values())
     for i in year_profit:
         if year_profit[i] == max(year_profit.values()):
-            ui.print_result(int(i), "The year is:")
             return int(i)
 
 
@@ -170,6 +170,8 @@ def avg_amount(table, year):
             elif "out" in line:
                 out_sum += int(line[5])
                 item_count += 1
-    result_avg = (in_sum - out_sum) / item_count
-    ui.print_result(result_avg, "The avarage is:")
-    return result_avg
+    if item_count == 0:
+        return("No item in the given year")
+    else:
+        result_avg = (in_sum - out_sum) / item_count
+        return result_avg

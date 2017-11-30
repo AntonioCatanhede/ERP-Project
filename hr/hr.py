@@ -32,7 +32,7 @@ def start_module():
 
     ui.print_menu("Human resources", ["show_table", "add", "remove", "update",
                                       "oldest person", "closest to the average age"], "Go back to main menu")
-    menu_choose_list = ui.get_inputs(["Choose"], "Please enter a number: ")
+    menu_choose_list = ui.get_inputs(["Choose: "], "Please enter a number: ")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
@@ -52,10 +52,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        get_oldest_person(the_list)
+        ui.print_result(get_oldest_person(the_list), "The oldest persons : ")
         start_module()
     elif menu_choose == 6:
-        get_persons_closest_to_average(the_list)
+        ui.print_result(get_persons_closest_to_average(the_list), "The closest to the average age : ")
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("hr/person.csv", the_list)
@@ -165,9 +165,7 @@ def get_oldest_person(table):
             oldest_names.append(i[1])
     if len(oldest_names) == 1:
         ui.print_result(oldest_names[0], "The oldest person is : ")
-        return oldest_names[0]
     else:
-        ui.print_result(oldest_names, "The oldest persons : ")
         return oldest_names
 
 
@@ -193,5 +191,4 @@ def get_persons_closest_to_average(table):
     for line in list1:
         if minimum in line:
             avarage_list.append(line[1])
-    ui.print_result(avarage_list, "The closest to the average age : ")
     return avarage_list

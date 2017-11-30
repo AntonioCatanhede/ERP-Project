@@ -51,10 +51,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        get_longest_name_id(the_list)
-        start_module()
+        ui.print_result(get_longest_name_id(the_list), "The id of the longest name : ")
+        start_module
     elif menu_choose == 6:
-        get_subscribed_emails(the_list)
+        ui.print_result(get_subscribed_emails(the_list), "Subscribers :")
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("crm/customers.csv", the_list)
