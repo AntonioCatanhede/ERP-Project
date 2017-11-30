@@ -104,7 +104,7 @@ def add(table):
             (returnable_list[-1][5]).isdigit() and \
             int((returnable_list[-1][5])) < 3000 and \
                 int((returnable_list[-1][5])) > 0:
-                return returnable_list
+            return returnable_list
         else:
             the_list.remove(the_list[-1])
             ui.print_error_message("\nYou entered wrong inputs\n")
@@ -172,7 +172,6 @@ def get_lowest_price_item_id(table):
     for line in table:
         prices.append(line[2])
     min_price = min(prices)
-    print(min_price)
     for line in table:
         if min_price in line:
             name_list.append(line[1])
@@ -189,8 +188,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     returnable_list = []
     datefrom = int(str(year_from) + str(month_from) + str(day_from))
     dateto = int(str(year_to) + str(month_to) + str(day_to))
-    print(datefrom)
-    print(dateto)
     for line in table:
         date = int(str(line[5]) + str(line[3]) + str(line[4]))
         if date > datefrom and date < dateto:
