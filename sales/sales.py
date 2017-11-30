@@ -56,7 +56,8 @@ def start_module():
         get_lowest_price_item_id(the_list)
         start_module()
     elif menu_choose == 6:
-        dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to", "year to"],"enter -date from and -date to want to observ")
+        dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to",
+                               "year to"], "enter -date from and -date to want to observ")
         get_items_sold_between(the_list, dates[0], dates[1], dates[2], dates[3], dates[4], dates[5])
         start_module()
     elif menu_choose == 0:
@@ -177,9 +178,9 @@ def get_lowest_price_item_id(table):
     for line in table:
         if min_price in line:
             name_list.append(line[1])
-    name_list.sort(reverse=False)
+    name = min(name_list)
     for line in table:
-        if name_list[0] in line:
+        if name in line:
             ui.print_result(line[0], "was sold for the lowest price")
             return line[0]
 

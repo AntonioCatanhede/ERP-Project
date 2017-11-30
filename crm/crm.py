@@ -29,8 +29,10 @@ def start_module():
         None
     """
 
-    ui.print_menu("Customers", ["show_table", "add", "remove", "update"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number: "))
+    ui.print_menu("Customers", ["show_table", "add", "remove", "update",
+                                "longest name id", "subscribers"], "Go back to main menu")
+    menu_choose_list = ui.get_inputs(["Choose: "], "")
+    menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
         menu_list.remove("id")
@@ -47,6 +49,12 @@ def start_module():
         id = ui.get_inputs(["ID: "], "Please enter an id: ")
         id = id[0]
         update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 5:
+        get_longest_name_id(the_list)
+        start_module()
+    elif menu_choose == 6:
+        get_subscribed_emails(the_list)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("crm/customers.csv", the_list)
@@ -81,7 +89,16 @@ def add(table):
         Table with a new record
     """
 
-    return common.common_add(table, menu_list)
+    while True:
+        returnable_list = common.common_add(table, menu_list)
+
+        if (returnable_list[-1][1]).isdigit() == False and \
+            "@" in returnable_list[-1][2] and \
+                returnable_list[-1][3] == "0" or returnable_list[-1][3] == "1":
+            return returnable_list
+        else:
+            the_list.remove(the_list[-1])
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 def remove(table, id_):
@@ -111,7 +128,19 @@ def update(table, list, id_):
         table with updated record
     """
 
-    return common.common_update(table, list, id_)
+    while True:
+        returnable_list = common.common_update(table, list, id_)
+
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
+        if (comparable_list[1]).isdigit() == False and \
+            "@" in comparable_list[2] and \
+                comparable_list[3] == "0" or comparable_list[3] == "1":
+            return comparable_list
+        else:
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 # special functions:
@@ -121,16 +150,30 @@ def update(table, list, id_):
 # the question: What is the id of the customer with the longest name ?
 # return type: string (id) - if there are more than one longest name, return the first by descending alphabetical order
 def get_longest_name_id(table):
-
-    # your code
-
-    pass
+    names = []
+    longest_name = ""
+    longest_names = []
+    longest_name_id = []
+    for line in table:
+        names.append(line[1])
+    for name in names:
+        if len(name) > len(longest_name):
+            longest_name = name
+    longest_names.append(longest_name)
+    for name in names:
+        if len(name) == len(longest_name):
+            longest_names.append(name)
+    longest_name = min(longest_names)
+    for line in table:
+        if longest_name in line:
+            return line[0]
 
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
 def get_subscribed_emails(table):
-
-    # your code
-
-    pass
+    list = []
+    for line in table:
+        if line[3] == "1":
+            list.append(line[2] + ";" + line[1])
+    return list

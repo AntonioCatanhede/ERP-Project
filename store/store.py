@@ -51,7 +51,7 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        print(get_counts_by_manufacturers(the_list))
+        get_counts_by_manufacturers(the_list)
         start_module()
     elif menu_choose == 6:
         manufacturer_input = ui.get_inputs(["Enter a manufacturer name : "], "The avarage game in stock")
