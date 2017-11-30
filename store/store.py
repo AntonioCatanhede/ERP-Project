@@ -31,7 +31,8 @@ def start_module():
 
     ui.print_menu("Store", ["show_table", "add", "remove", "update",
                             "manufacturer count", "stock avarage"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number: "))
+    menu_choose_list = ui.get_inputs(["Choose: "], "")
+    menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
         menu_list.remove("id")
@@ -53,7 +54,9 @@ def start_module():
         print(get_counts_by_manufacturers(the_list))
         start_module()
     elif menu_choose == 6:
-        print(get_average_by_manufacturer(the_list, "Games Farm"))
+        manufacturer_input = ui.get_inputs(["Enter a manufacturer name : "], "The avarage game in stock")
+        manufacturer_input = int(manufacturer_input[0])
+        get_average_by_manufacturer(the_list, manufacturer_input)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("store/games.csv", the_list)
@@ -88,9 +91,9 @@ def add(table):
     while True:
         returnable_list = common.common_add(table, menu_list)
 
-        if (returnable_list[-1][1]).isdigit() == False and \
-            (returnable_list[-1][2]).isdigit() == False and \
-            (returnable_list[-1][3]).isdigit() and \
+        if (returnable_list[-1][1]).isdigit() == False and
+            (returnable_list[-1][2]).isdigit() == False and
+            (returnable_list[-1][3]).isdigit() and
                 (returnable_list[-1][4]).isdigit():
             return returnable_list
         else:
@@ -109,7 +112,6 @@ def remove(table, id_):
     Returns:
         Table without specified record.
     """
-
     return common.common_remove(table, id_)
 
 
@@ -130,10 +132,13 @@ def update(table, list, id_):
         for item in returnable_list:
             if id_ in item:
                 comparable_list = item
+        else:
+            show_table(the_list)
+            ui.print_error_message("\nThis is not a correct Id,choose from the table\n")
 
-        if (comparable_list[1]).isdigit() == False and \
-            (comparable_list[2]).isdigit() == False and \
-            (comparable_list[3]).isdigit() and \
+        if (comparable_list[1]).isdigit() == False and
+            (comparable_list[2]).isdigit() == False and
+            (comparable_list[3]).isdigit() and
                 (comparable_list[4]).isdigit():
             return returnable_list
         else:
@@ -155,6 +160,7 @@ def get_counts_by_manufacturers(table):
             manufacturer_count[manufacturers] += 1
         else:
             manufacturer_count[manufacturers] = 1
+    ui.print_result(manufacturer_count, "Games by manufacturer:")
     return manufacturer_count
 
 
@@ -169,4 +175,5 @@ def get_average_by_manufacturer(table, manufacturer):
     for item in average_list:
         sum_items += int(item)
     average = sum_items / len(average_list)
+    ui.print_result(average, "The avarage games in stock:")
     return average
