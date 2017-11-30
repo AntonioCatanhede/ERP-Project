@@ -164,8 +164,10 @@ def get_oldest_person(table):
         if oldest_person_age in i:
             oldest_names.append(i[1])
     if len(oldest_names) == 1:
+        ui.print_result(oldest_names[0], "The oldest person is : ")
         return oldest_names[0]
     else:
+        ui.print_result(oldest_names, "The oldest persons : ")
         return oldest_names
 
 
@@ -191,4 +193,5 @@ def get_persons_closest_to_average(table):
     for line in list1:
         if minimum in line:
             avarage_list.append(line[1])
+    ui.print_result(avarage_list, "The closest to the average age : ")
     return avarage_list
