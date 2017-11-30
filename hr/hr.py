@@ -30,7 +30,8 @@ def start_module():
 
     # your code
 
-    ui.print_menu("Human resources", ["show_table", "add", "remove", "update", "oldest person", "closest to the average age"], "Go back to main menu")
+    ui.print_menu("Human resources", ["show_table", "add", "remove", "update",
+                                      "oldest person", "closest to the average age"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -50,10 +51,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        get_oldest_person(the_list)
+        print(get_oldest_person(the_list))
         start_module()
     elif menu_choose == 6:
-        get_persons_closest_to_average(the_list)
+        print(get_persons_closest_to_average(the_list))
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("hr/person.csv", the_list)
@@ -143,8 +144,6 @@ def update(table, list, id_):
 # return type: list of strings (name or names if there are two more with the same value)
 def get_oldest_person(table):
 
-    # your code
-
     oldest_person_list = []
     oldest_names = []
     for i in table:
@@ -163,16 +162,22 @@ def get_oldest_person(table):
 # return type: list of strings (name or names if there are two more with the same value)
 def get_persons_closest_to_average(table):
 
-    # your code
-
-    ''' name = []
-    birth = []
-    closest = 0
-    avg_list = []
-    for i in table:
-        birth.append([i[2], i[1]])
-    for i in birth:
-        avg_list.append(birth[0])
-    avg = sum(avg_list)/len(avg_list)
-    
- '''
+    list1 = []
+    ages = []
+    sum_ages = 0
+    minimum = 100
+    avarage_list = []
+    for line in table:
+        sum_ages += int(line[2])
+    avg = sum_ages / len(table)
+    for line in table:
+        list1.append([line[2], line[1]])
+    for i in range(len(list1)):
+        list1[i][0] = (abs(float(list1[i][0]) - avg))
+    for i in range(len(list1)):
+        if float(list1[i][0]) < minimum:
+            minimum = float(list1[i][0])
+    for line in list1:
+        if minimum in line:
+            avarage_list.append(line[1])
+    return avarage_list
