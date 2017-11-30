@@ -26,13 +26,12 @@ def start_module():
     Starts this module and displays its menu.
     User can access default special features from here.
     User can go back to main menu from here.
-
     Returns:
         None
     """
 
     ui.print_menu("Accounting", ["show_table", "add", "remove", "update",
-                                 "most profitable year","avarage amount"], "Go back to main menu")
+                                 "most profitable year", "avarage amount"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -67,10 +66,8 @@ def start_module():
 def show_table(table):
     """
     Display a table
-
     Args:
         table: list of lists to be displayed.
-
     Returns:
         None
     """
@@ -81,10 +78,8 @@ def show_table(table):
 def add(table):
     """
     Asks user for input and adds it into the table.
-
     Args:
         table: table to add new record to
-
     Returns:
         Table with a new record
     """
@@ -97,11 +92,9 @@ def add(table):
 def remove(table, id_):
     """
     Remove a record with a given id from the table.
-
     Args:
         table: table to remove a record from
         id_ (str): id of a record to be removed
-
     Returns:
         Table without specified record.
     """
@@ -114,11 +107,9 @@ def remove(table, id_):
 def update(table, list, id_):
     """
     Updates specified record in the table. Ask users for new data.
-
     Args:
         table: list in which record should be updated
         id_ (str): id of a record to update
-
     Returns:
         table with updated record
     """
@@ -173,5 +164,5 @@ def avg_amount(table, year):
             elif "out" in line:
                 out_sum += int(line[5])
                 item_count += 1
-    
-    return (in_sum-out_sum)/item_count
+
+    return (in_sum - out_sum) / item_count
