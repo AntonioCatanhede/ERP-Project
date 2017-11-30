@@ -32,7 +32,8 @@ def start_module():
 
     ui.print_menu("Human resources", ["show_table", "add", "remove", "update",
                                       "oldest person", "closest to the average age"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number: "))
+    menu_choose_list = ui.get_inputs(["Choose"], "Please enter a number: ")
+    menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
         menu_list.remove("id")
@@ -51,10 +52,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        print(get_oldest_person(the_list))
+        get_oldest_person(the_list)
         start_module()
     elif menu_choose == 6:
-        print(get_persons_closest_to_average(the_list))
+        get_persons_closest_to_average(the_list)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("hr/person.csv", the_list)
@@ -134,7 +135,17 @@ def update(table, list, id_):
 
     # your code
 
-    return common.common_update(table, list, id_)
+    while True:
+        returnable_list = common.common_update(table, list, id_)
+
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
+        if (comparable_list[1]).isdigit() == False and (comparable_list[2]).isdigit():
+            return returnable_list
+        else:
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 # special functions:
