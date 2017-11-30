@@ -128,9 +128,12 @@ def update(table, list, id_):
 def get_available_items(table):
 
     avaliable_items = []
+    one_line = []
     for line in table:
         if (int(line[3]) + int(line[4])) >= 2017:
-            avaliable_items.append(line)
+            for item in line:
+                one_line.append(item)
+            avaliable_items.append(one_line)
     for list in range(len(avaliable_items)):
         avaliable_items[list][3] = int(avaliable_items[list][3])
         avaliable_items[list][4] = int(avaliable_items[list][4])
