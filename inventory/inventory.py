@@ -31,7 +31,8 @@ def start_module():
     """
     ui.print_menu("Inventory", ["show_table", "add", "remove", "update", "avaliable items",
                                 "average durability by manufacturers"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number: "))
+    menu_choose_list = ui.get_inputs(["Choose: "], "")
+    menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
         menu_list.remove("id")
@@ -50,10 +51,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        print(get_available_items(the_list))
+        get_available_items(the_list)
         start_module()
     elif menu_choose == 6:
-        print(get_average_durability_by_manufacturers(the_list))
+        get_average_durability_by_manufacturers(the_list)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("inventory/inventory.csv", the_list)
@@ -87,7 +88,17 @@ def add(table):
         Table with a new record
     """
 
-    return common.common_add(table, menu_list)
+    while True:
+        returnable_list = common.common_add(table, menu_list)
+
+        if (returnable_list[-1][1]).isdigit() == False and \
+            (returnable_list[-1][2]).isdigit() == False and \
+            (returnable_list[-1][3]).isdigit() and \
+                (returnable_list[-1][4]).isdigit():
+            return returnable_list
+        else:
+            the_list.remove(the_list[-1])
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 def remove(table, id_):
@@ -115,7 +126,20 @@ def update(table, list, id_):
     Returns:
         table with updated record
     """
-    return common.common_update(table, list, id_)
+    while True:
+        returnable_list = common.common_update(table, list, id_)
+
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
+        if (comparable_list[1]).isdigit() == False and \
+            (comparable_list[2]).isdigit() == False and \
+            (comparable_list[3]).isdigit() and \
+                (comparable_list[4]).isdigit():
+            return comparable_list
+        else:
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 # special functions:
@@ -130,13 +154,14 @@ def get_available_items(table):
     avaliable_items = []
     one_line = []
     for line in table:
-        if (int(line[3]) + int(line[4])) >= 2017:
+        if int(line[3]) + int(line[4]) >= 2017:
             for item in line:
                 one_line.append(item)
             avaliable_items.append(one_line)
-    for list in range(len(avaliable_items)):
-        avaliable_items[list][3] = int(avaliable_items[list][3])
-        avaliable_items[list][4] = int(avaliable_items[list][4])
+    for line in range(len(avaliable_items)):
+        avaliable_items[line][3] = int(avaliable_items[line][3])
+        avaliable_items[line][4] = int(avaliable_items[line][4])
+    ui.print_result(avaliable_items, "Avaible items: ")
     return avaliable_items
 
 
@@ -158,4 +183,5 @@ def get_average_durability_by_manufacturers(table):
                 counter += 1
                 sum_num += int(line[4])
         returnable_dict[manufacturer] = sum_num / counter
+    ui.print_result(returnable_dict, "The avarage durability: ")
     return returnable_dict

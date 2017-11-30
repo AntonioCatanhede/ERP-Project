@@ -26,13 +26,15 @@ def start_module():
     Starts this module and displays its menu.
     User can access default special features from here.
     User can go back to main menu from here.
+
     Returns:
         None
     """
 
     ui.print_menu("Accounting", ["show_table", "add", "remove", "update",
                                  "most profitable year", "avarage amount"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number: "))
+    menu_choose_list = ui.get_inputs(["Choose: "], "")
+    menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
         menu_list.remove("id")
@@ -51,10 +53,12 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        print(which_year_max(the_list))
+        which_year_max(the_list)
         start_module()
     elif menu_choose == 6:
-        print(avg_amount(the_list, 2015))
+        year_input = ui.get_inputs(["Enter the year: "], "")
+        year_input = year_input[0]
+        avg_amount(the_list, year_input)
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("accounting/items.csv", the_list)
@@ -66,8 +70,10 @@ def start_module():
 def show_table(table):
     """
     Display a table
+
     Args:
         table: list of lists to be displayed.
+
     Returns:
         None
     """
@@ -78,13 +84,13 @@ def show_table(table):
 def add(table):
     """
     Asks user for input and adds it into the table.
+
     Args:
         table: table to add new record to
+
     Returns:
         Table with a new record
     """
-
-    # your code
 
     return common.common_add(table, menu_list)
 
@@ -92,14 +98,14 @@ def add(table):
 def remove(table, id_):
     """
     Remove a record with a given id from the table.
+
     Args:
         table: table to remove a record from
         id_ (str): id of a record to be removed
+
     Returns:
         Table without specified record.
     """
-
-    # your code
 
     return common.common_remove(table, id_)
 
@@ -107,14 +113,14 @@ def remove(table, id_):
 def update(table, list, id_):
     """
     Updates specified record in the table. Ask users for new data.
+
     Args:
         table: list in which record should be updated
         id_ (str): id of a record to update
+
     Returns:
         table with updated record
     """
-
-    # your code
 
     return common.common_update(table, list, id_)
 
@@ -142,10 +148,10 @@ def which_year_max(table):
                 elif "out" in line:
                     out_sum += int(line[5])
         year_profit[int(year)] = in_sum - out_sum
-    print(year_profit)
     maximum = max(year_profit.values())
     for i in year_profit:
         if year_profit[i] == max(year_profit.values()):
+            ui.print_result(int(i), "The year is:")
             return int(i)
 
 
@@ -164,5 +170,6 @@ def avg_amount(table, year):
             elif "out" in line:
                 out_sum += int(line[5])
                 item_count += 1
-
-    return (in_sum - out_sum) / item_count
+    result_avg = (in_sum - out_sum) / item_count
+    ui.print_result(result_avg, "The avarage is:")
+    return result_avg

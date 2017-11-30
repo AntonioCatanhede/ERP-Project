@@ -55,7 +55,7 @@ def start_module():
         start_module()
     elif menu_choose == 6:
         manufacturer_input = ui.get_inputs(["Enter a manufacturer name : "], "The avarage game in stock")
-        manufacturer_input = int(manufacturer_input[0])
+        manufacturer_input = manufacturer_input[0]
         get_average_by_manufacturer(the_list, manufacturer_input)
         start_module()
     elif menu_choose == 0:
@@ -91,9 +91,9 @@ def add(table):
     while True:
         returnable_list = common.common_add(table, menu_list)
 
-        if (returnable_list[-1][1]).isdigit() == False and
-            (returnable_list[-1][2]).isdigit() == False and
-            (returnable_list[-1][3]).isdigit() and
+        if (returnable_list[-1][1]).isdigit() == False and \
+            (returnable_list[-1][2]).isdigit() == False and \
+            (returnable_list[-1][3]).isdigit() and \
                 (returnable_list[-1][4]).isdigit():
             return returnable_list
         else:
@@ -129,16 +129,9 @@ def update(table, list, id_):
     while True:
         returnable_list = common.common_update(table, list, id_)
 
-        for item in returnable_list:
-            if id_ in item:
-                comparable_list = item
-        else:
-            show_table(the_list)
-            ui.print_error_message("\nThis is not a correct Id,choose from the table\n")
-
-        if (comparable_list[1]).isdigit() == False and
-            (comparable_list[2]).isdigit() == False and
-            (comparable_list[3]).isdigit() and
+        if (comparable_list[1]).isdigit() == False and \
+            (comparable_list[2]).isdigit() == False and \
+            (comparable_list[3]).isdigit() and \
                 (comparable_list[4]).isdigit():
             return returnable_list
         else:

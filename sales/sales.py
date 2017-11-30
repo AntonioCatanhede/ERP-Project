@@ -33,7 +33,8 @@ def start_module():
 
     ui.print_menu("Sales", ["show_table", "add", "remove", "update",
                             "lowest price item", "get item between date"], "Go back to main menu")
-    menu_choose = int(input("Please enter a number: "))
+    menu_choose_list = ui.get_inputs(["Choose: "], "")
+    menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
         show_table(the_list)
         menu_list.remove("id")
@@ -52,10 +53,11 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        print(get_lowest_price_item_id(the_list))
+        get_lowest_price_item_id(the_list)
         start_module()
     elif menu_choose == 6:
-        print(get_items_sold_between(the_list, "12", "4", "2015", "4", "19", "2017"))
+        dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to", "year to"],"enter -date from and -date to want to observ")
+        get_items_sold_between(the_list, dates[0], dates[1], dates[2], dates[3], dates[4], dates[5])
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("sales/sales.csv", the_list)
@@ -178,6 +180,7 @@ def get_lowest_price_item_id(table):
     name_list.sort(reverse=False)
     for line in table:
         if name_list[0] in line:
+            ui.print_result(line[0], "was sold for the lowest price")
             return line[0]
 
 
@@ -192,4 +195,5 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         date = int(str(line[5]) + str(line[3]) + str(line[4]))
         if date > datefrom and date < dateto:
             returnable_list.append(line)
+    ui.print_result(returnable_list, "item(s) between the 2 given date")
     return returnable_list
