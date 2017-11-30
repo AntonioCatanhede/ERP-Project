@@ -50,10 +50,10 @@ def start_module():
         update(the_list, menu_list, id)
         start_module()
     elif menu_choose == 5:
-        get_available_items(the_list)
+        print(get_available_items(the_list))
         start_module()
     elif menu_choose == 6:
-        get_average_durability_by_manufacturers(the_list)
+        print(get_average_durability_by_manufacturers(the_list))
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("inventory/inventory.csv", the_list)
@@ -127,12 +127,13 @@ def update(table, list, id_):
 # @table: list of lists
 def get_available_items(table):
 
-    # your code
-
     avaliable_items = []
     for line in table:
-        if (line[3] + line[4]) >= 2017:
+        if (int(line[3]) + int(line[4])) >= 2017:
             avaliable_items.append(line)
+    for list in range(len(avaliable_items)):
+        avaliable_items[list][3] = int(avaliable_items[list][3])
+        avaliable_items[list][4] = int(avaliable_items[list][4])
     return avaliable_items
 
 
@@ -141,17 +142,17 @@ def get_available_items(table):
 #
 # @table: list of lists
 def get_average_durability_by_manufacturers(table):
-
-    # your code
-
-    ''' manufacturer_list = []
-    manufacturer_count = {}
+    manufacturers_set = set()
+    returnable_dict = {}
     for line in table:
-        manufacturer_list.append(line[2])
-    for manufacturers in manufacturer_list:
-        if manufacturers in manufacturer_count:
-            manufacturer_count[manufacturers] += 1
-        else:
-            manufacturer_count[manufacturers] = 1
-    return manufacturer_count '''
-    pass
+        manufacturers_set.add(line[2])
+
+    for manufacturer in manufacturers_set:
+        counter = 0
+        sum_num = 0
+        for line in table:
+            if manufacturer in line:
+                counter += 1
+                sum_num += int(line[4])
+        returnable_dict[manufacturer] = sum_num / counter
+    return returnable_dict
