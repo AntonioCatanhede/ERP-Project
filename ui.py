@@ -33,8 +33,10 @@ def print_table(table, title_list):
         for cell_j in range(len(row)):
             cell = row[cell_j]
             width = maxlength[cell_j]
-            print(' | ' + cell.center(width), end='')
+            print(' | ' + str(cell).center(width), end='')
         print(' |')
+
+    table.remove(table[0])
 
 
 def print_result(result, label):
