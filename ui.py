@@ -35,7 +35,6 @@ def print_table(table, title_list):
             width = maxlength[cell_j]
             print(' | ' + str(cell).center(width), end='')
         print(' |')
-
     table.remove(table[0])
 
 
@@ -50,8 +49,8 @@ def print_result(result, label):
     Returns:
         This function doesn't return anything it only prints to console.
     """
+    print(label, end=" ")
     print(result)
-    print(label)
 
 
 def print_menu(title, list_options, exit_message):
@@ -104,7 +103,7 @@ def get_inputs(list_labels, title):
 
     print(title)
     for i in range(1, len(list_labels) + 1):
-        print(list_labels[i - 1] + " : ", end="")
+        print(list_labels[i - 1], end="")
         temp_var = input()
         inputs.append(temp_var)
 
