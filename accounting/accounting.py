@@ -31,7 +31,8 @@ def start_module():
         None
     """
 
-    ui.print_menu("Accounting", ["show_table", "add", "remove", "update"], "Go back to main menu")
+    ui.print_menu("Accounting", ["show_table", "add", "remove", "update",
+                                 "most profitable year","avarage amount"], "Go back to main menu")
     menu_choose = int(input("Please enter a number: "))
     if menu_choose == 1:
         show_table(the_list)
@@ -49,6 +50,12 @@ def start_module():
         id = ui.get_inputs(["ID: "], "Please enter an id: ")
         id = id[0]
         update(the_list, menu_list, id)
+        start_module()
+    elif menu_choose == 5:
+        print(which_year_max(the_list))
+        start_module()
+    elif menu_choose == 6:
+        print(avg_amount(the_list, 2015))
         start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("accounting/items.csv", the_list)
@@ -128,15 +135,43 @@ def update(table, list, id_):
 # return the answer (number)
 def which_year_max(table):
 
-    # your code
+    year_set = set()
+    year_profit = {}
 
-    pass
+    for line in table:
+        year_set.add(line[3])
+
+    for year in year_set:
+        in_sum = 0
+        out_sum = 0
+        for line in table:
+            if year in line:
+                if "in" in line:
+                    in_sum += int(line[5])
+                elif "out" in line:
+                    out_sum += int(line[5])
+        year_profit[int(year)] = in_sum - out_sum
+    print(year_profit)
+    maximum = max(year_profit.values())
+    for i in year_profit:
+        if year_profit[i] == max(year_profit.values()):
+            return int(i)
 
 
 # the question: What is the average (per item) profit in a given year? [(profit)/(items count) ]
 # return the answer (number)
 def avg_amount(table, year):
 
-    # your code
-
-    pass
+    in_sum = 0
+    out_sum = 0
+    item_count = 0
+    for line in table:
+        if str(year) in line:
+            if "in" in line:
+                in_sum += int(line[5])
+                item_count += 1
+            elif "out" in line:
+                out_sum += int(line[5])
+                item_count += 1
+    
+    return (in_sum-out_sum)/item_count
