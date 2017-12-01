@@ -58,7 +58,7 @@ def start_module():
         ui.print_result(get_persons_closest_to_average(the_list), "The closest to the average age : ")
         start_module()
     elif menu_choose == 0:
-        data_manager.write_table_to_file("hr/person.csv", the_list)
+        data_manager.write_table_to_file("hr/persons.csv", the_list)
         return
     else:
         raise KeyError("There is no such options")

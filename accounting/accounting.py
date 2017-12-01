@@ -93,7 +93,24 @@ def add(table):
         Table with a new record
     """
 
-    return common.common_add(table, menu_list)
+    while True:
+        returnable_list = common.common_add(table, menu_list)
+
+        if (returnable_list[-1][1]).isdigit() and \
+            (returnable_list[-1][5]).isdigit() and \
+            (returnable_list[-1][4]) == "in" or (returnable_list[-1][4]) == "out" and \
+            int((returnable_list[-1][1])) > 0 and \
+            int((returnable_list[-1][1])) < 13 and \
+            (returnable_list[-1][2]).isdigit() and\
+            int((returnable_list[-1][2])) > 0 and \
+            int((returnable_list[-1][2])) < 32 and \
+            (returnable_list[-1][3]).isdigit() and \
+            int((returnable_list[-1][3])) < 3000 and \
+                int((returnable_list[-1][3])) > 0:
+            return returnable_list
+        else:
+            the_list.remove(the_list[-1])
+            ui.print_error_message("\nYou enteWred wrong inputs\n")
 
 
 def remove(table, id_):
@@ -123,7 +140,27 @@ def update(table, list, id_):
         table with updated record
     """
 
-    return common.common_update(table, list, id_)
+    while True:
+        returnable_list = common.common_update(table, list, id_)
+
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
+        if (comparable_list[1]).isdigit() and \
+            (comparable_list[5]).isdigit() and \
+            (comparable_list[4]) == "in" or (comparable_list[4]) == "out" and \
+            int((comparable_list[1])) > 0 and \
+            int((comparable_list[1])) < 13 and \
+            (comparable_list[2]).isdigit() and\
+            int((comparable_list[2])) > 0 and \
+            int((comparable_list[2])) < 32 and \
+            (comparable_list[3]).isdigit() and \
+            int((comparable_list[3])) < 3000 and \
+                int((comparable_list[3])) > 0:
+            return returnable_list
+        else:
+            ui.print_error_message("\nYou entered wrong inputs\n")
 
 
 # special functions:
