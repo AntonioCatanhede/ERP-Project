@@ -129,6 +129,10 @@ def update(table, list, id_):
     while True:
         returnable_list = common.common_update(table, list, id_)
 
+        for item in returnable_list:
+            if id_ in item:
+                comparable_list = item
+
         if (comparable_list[1]).isdigit() == False and \
             (comparable_list[2]).isdigit() == False and \
             (comparable_list[3]).isdigit() and \
