@@ -29,7 +29,33 @@ def start_module():
 
     # your code
 
-    pass
+    ui.print_menu(
+        "Data analyser", ["Last buyer name", "Last buyer id", "Name of the most spent", "Id of the most spent",
+                          "Name of the most frequent buyers", "Id of the most frequent buyers"], "Go back to main menu")
+    menu_choose_list = ui.get_inputs(["Choose: "], "")
+    menu_choose = int(menu_choose_list[0])
+    if menu_choose == 1:
+        get_the_last_buyer_name(lst1, lst2)
+        start_module()
+    elif menu_choose == 2:
+        get_the_last_buyer_id()
+        start_module()
+    elif menu_choose == 3:
+        get_the_buyer_name_spent_most_and_the_money_spent()
+        start_module()
+    elif menu_choose == 4:
+        get_the_buyer_id_spent_most_and_the_money_spent()
+        start_module()
+    elif menu_choose == 5:
+        get_the_most_frequent_buyers_names(num=1)
+        start_module
+    elif menu_choose == 6:
+        get_the_most_frequent_buyers_ids(num=1)
+        start_module()
+    elif menu_choose == 0:
+        return
+    else:
+        raise KeyError("There is no such options")
 
 
 def get_the_last_buyer_name(lst1, lst2):
@@ -124,4 +150,4 @@ def get_the_most_frequent_buyers_ids(num=1):
 
     pass
 
-get_the_last_buyer_name(sales_list,crm_list)
+get_the_last_buyer_name(sales_list, crm_list)
