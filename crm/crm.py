@@ -222,4 +222,3 @@ def get_name_by_id_from_table(table, id):
         return None
     else:
         return name
-
