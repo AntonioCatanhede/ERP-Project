@@ -214,5 +214,12 @@ def get_name_by_id_from_table(table, id):
     """
 
     # your code
+    name = ""
+    for item in table:
+        if item[0] == id:
+            name = item[1]
+    if name == "":
+        return None
+    else:
+        return name
 
-    pass
