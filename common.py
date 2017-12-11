@@ -2,6 +2,7 @@
 
 import random
 import ui
+import smtplib
 
 
 # generate and return a unique and random string
@@ -70,3 +71,33 @@ def common_update(table, list, id_):
             for items in new_item:
                 table[i].append(items)
     return table
+
+
+def caesar(plaintext, shift):
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    shifted_alphabet = alphabet[shift:] + alphabet[:shift]
+    table = str.maketrans(alphabet, shifted_alphabet)
+    return plaintext.translate(table)
+
+
+def username_pass(lst):
+    tries = 3
+    while True:
+        User = ui.get_inputs(["Username: ", "Password: "], "Please provide the console informations")
+        password = User[1]
+        new_pass = caesar(password, 5)
+        User[1] = new_pass
+        if User in lst:
+            return True
+        else:
+            tries -= 1
+            if tries == 0:
+                ui.print_error_message("You have no more tries, sorry :(")
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()
+                server.login("erpinformationltd@gmail.com", "Hermelin123?")
+                msg = "Subject: ERP login \nSomebody tried to enter your ERP account 3 times with wrong password."
+                server.sendmail("erpinformationltd@gmail.com", "semmiertelme13@gmail.com", msg)
+                server.quit()
+                return False
+            ui.print_error_message("You entered wrong password, you have " + str(tries) + " tries left")

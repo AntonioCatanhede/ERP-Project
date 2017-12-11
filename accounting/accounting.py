@@ -19,6 +19,7 @@ import common
 
 the_list = data_manager.get_table_from_file("accounting/items.csv")
 menu_list = ["month:", "day:", "year:", "type:", "amount:"]
+users = [["John Doe", "Hjwrjqns123?"], ["Főnök", "123"]]
 
 
 def start_module():
@@ -31,7 +32,7 @@ def start_module():
         None
     """
 
-    ui.print_menu("Accounting", ["show_table", "add", "remove", "update",
+    ui.print_menu("Accounting", ["show_table", "add", "remove", "update","login",
                                  "most profitable year", "avarage amount"], "Go back to main menu")
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
@@ -40,23 +41,32 @@ def start_module():
         menu_list.remove("id")
         start_module()
     elif menu_choose == 2:
-        add(the_list)
+        if common.username_pass(users):
+            add(the_list)
         start_module()
     elif menu_choose == 3:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        remove(the_list, id)
+        if common.username_pass(users):
+            show_table(the_list)
+            id = ui.get_inputs(["ID: "], "Please enter an id: ")
+            id = id[0]
+            remove(the_list, id)
         start_module()
     elif menu_choose == 4:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        update(the_list, menu_list, id)
+        if Login == True:
+            show_table(the_list)            
+            id = ui.get_inputs(["ID: "], "Please enter an id: ")
+            id = id[0]
+            update(the_list, menu_list, id)
+        ui.print_error_message("You don't have permission to do that!\nPlease login first!")
         start_module()
     elif menu_choose == 5:
+        if common.username_pass(users):
+            Login = True
+    elif menu_choose == 6:
         which_year_max(the_list)
         ui.print_result(which_year_max(the_list), "The year is:")
         start_module()
-    elif menu_choose == 6:
+    elif menu_choose == 7:
         year_input = ui.get_inputs(["Enter the year: "], "")
         year_input = year_input[0]
         ui.print_result(avg_amount(the_list, year_input), "The avarage is:")
