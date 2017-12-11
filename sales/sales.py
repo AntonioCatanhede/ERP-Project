@@ -255,15 +255,17 @@ def get_item_id_sold_last_from_table(table):
     Returns:
         (str) the _id_ of the item that was sold most recently.
     """
-    dates = []
+    dates_id = []
     date = []
+    date_lst=[]
     for line in table:
         date = int(str(line[5]) + str(line[3]) + str(line[4]))
-        dates_id.append(date, line[0])
+        date_id=[date, line[0]]
+        dates_id.append(date_id)
     for item in dates_id:
-        date.append(item[0])
+        date_lst.append(item[0])
     for item in dates_id:
-        if max(date) in item:
+        if max(date_lst) in item:
             return item[1]
 
 

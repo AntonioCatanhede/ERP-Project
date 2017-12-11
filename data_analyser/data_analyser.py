@@ -10,6 +10,7 @@
 import os
 import ui
 import common
+import data_manager
 from sales import sales
 from crm import crm
 
@@ -35,10 +36,10 @@ def start_module():
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
-        get_the_last_buyer_name(lst1, lst2)
+        ui.print_result(get_the_last_buyer_name(sales_list,crm_list),"The last buyer's name: ")
         start_module()
     elif menu_choose == 2:
-        get_the_last_buyer_id()
+        ui.print_result(get_the_last_buyer_id(sales_list),"The last buyer's id: ")
         start_module()
     elif menu_choose == 3:
         get_the_buyer_name_spent_most_and_the_money_spent()
@@ -66,21 +67,21 @@ def get_the_last_buyer_name(lst1, lst2):
         Customer name of the last buyer
     """
 
-    my_id = sales.get_item_id_sold_last_from_table(lst1)
+    temp_id = sales.get_item_id_sold_last_from_table(lst1)
+    my_id=sales.get_customer_id_by_sale_id_from_table(lst1, temp_id)
     return crm.get_name_by_id_from_table(lst2, my_id)
 
 
-def get_the_last_buyer_id():
+def get_the_last_buyer_id(lst1):
     """
     Returns the customer _id_ of the customer made sale last.
 
     Returns:
         Customer id of the last buyer
     """
+    temp_id = sales.get_item_id_sold_last_from_table(lst1)
+    return sales.get_customer_id_by_sale_id_from_table(lst1, temp_id)
 
-    # your code
-
-    pass
 
 
 def get_the_buyer_name_spent_most_and_the_money_spent():
