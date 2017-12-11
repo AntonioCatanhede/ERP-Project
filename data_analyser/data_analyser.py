@@ -13,6 +13,9 @@ import common
 from sales import sales
 from crm import crm
 
+sales_list = data_manager.get_table_from_file("sales/sales.csv")
+crm_list = data_manager.get_table_from_file("crm/customers.csv")
+
 
 def start_module():
     """
@@ -29,7 +32,7 @@ def start_module():
     pass
 
 
-def get_the_last_buyer_name():
+def get_the_last_buyer_name(lst1, lst2):
     """
     Returns the customer _name_ of the customer made sale last.
 
@@ -37,9 +40,8 @@ def get_the_last_buyer_name():
         Customer name of the last buyer
     """
 
-    # your code
-
-    pass
+    my_id = sales.get_item_id_sold_last_from_table(lst1)
+    return crm.get_name_by_id_from_table(lst2, my_id)
 
 
 def get_the_last_buyer_id():
@@ -121,3 +123,5 @@ def get_the_most_frequent_buyers_ids(num=1):
     # your code
 
     pass
+
+get_the_last_buyer_name(sales_list,crm_list)
