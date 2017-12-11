@@ -4,7 +4,7 @@ def print_table(table, title_list):
     """
     Prints table with data. Sample output:
         /-----------------------------------\
-        |   id   |      title     |  type   |
+        |   id   |      title     | type    |
         |--------|----------------|---------|
         |   0    | Counter strike |    fps  |
         |--------|----------------|---------|
@@ -18,10 +18,24 @@ def print_table(table, title_list):
     Returns:
         This function doesn't return anything it only prints to console.
     """
+    table.insert(0, title_list)
 
-    # your goes code
+    maxlength = []
+    for column in range(len(table[0])):
+        length = 0
+        for row in range(len(table)):
+            if len(str(table[row][column])) > length:
+                length = len(str(table[row][column]))
+        maxlength.append(length)
 
-    pass
+    for row_i in range(len(table)):
+        row = table[row_i]
+        for cell_j in range(len(row)):
+            cell = row[cell_j]
+            width = maxlength[cell_j]
+            print(' | ' + str(cell).center(width), end='')
+        print(' |')
+    table.remove(table[0])
 
 
 def print_result(result, label):
@@ -35,10 +49,8 @@ def print_result(result, label):
     Returns:
         This function doesn't return anything it only prints to console.
     """
-
-    # your code
-
-    pass
+    print("\n", label, end=" ")
+    print(result, "\n")
 
 
 def print_menu(title, list_options, exit_message):
@@ -62,9 +74,10 @@ def print_menu(title, list_options, exit_message):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
-
-    pass
+    print(title)
+    for i in range(1, len(list_options) + 1):
+        print("\t (" + str(i) + ")", list_options[i - 1])
+    print("\t (0)", exit_message)
 
 
 def get_inputs(list_labels, title):
@@ -88,7 +101,11 @@ def get_inputs(list_labels, title):
     """
     inputs = []
 
-    # your code
+    print(title)
+    for i in range(1, len(list_labels) + 1):
+        print(list_labels[i - 1], end="")
+        temp_var = input()
+        inputs.append(temp_var)
 
     return inputs
 
@@ -107,6 +124,4 @@ def print_error_message(message):
         This function doesn't return anything it only prints to console.
     """
 
-    # your code
-
-    pass
+    print(message)
