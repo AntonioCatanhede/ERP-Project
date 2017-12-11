@@ -17,6 +17,8 @@ from accounting import accounting
 from sales import sales
 # Customer Relationship Management (CRM) module
 from crm import crm
+# Data Analyser module
+from data_analyser import data_analyser
 
 
 def choose():
@@ -34,6 +36,8 @@ def choose():
         sales.start_module()
     elif option == "6":
         crm.start_module()
+    elif option == "7":
+        data_analyser.start_module()
     elif option == "0":
         sys.exit(0)
     else:
