@@ -19,7 +19,8 @@ import common
 
 the_list = data_manager.get_table_from_file("accounting/items.csv")
 menu_list = ["month:", "day:", "year:", "type:", "amount:"]
-users = [["John Doe", "Hjwrjqns123?"], ["Főnök", "123"]]
+users = ["John Doe", "Hjwrjqns123?"]
+Login = False
 
 
 def start_module():
@@ -31,51 +32,69 @@ def start_module():
     Returns:
         None
     """
-
-    ui.print_menu("Accounting", ["show_table", "add", "remove", "update","login",
-                                 "most profitable year", "avarage amount"], "Go back to main menu")
-    menu_choose_list = ui.get_inputs(["Choose: "], "")
-    menu_choose = int(menu_choose_list[0])
-    if menu_choose == 1:
-        show_table(the_list)
-        menu_list.remove("id")
-        start_module()
-    elif menu_choose == 2:
-        if common.username_pass(users):
-            add(the_list)
-        start_module()
-    elif menu_choose == 3:
-        if common.username_pass(users):
+    while True:
+        ui.print_menu("Accounting", ["show_table", "add", "remove", "update", "login",
+                                     "most profitable year", "avarage amount"], "Go back to main menu")
+        menu_choose_list = ui.get_inputs(["Choose: "], "")
+        menu_choose = int(menu_choose_list[0])
+        if menu_choose == 1:
             show_table(the_list)
-            id = ui.get_inputs(["ID: "], "Please enter an id: ")
-            id = id[0]
-            remove(the_list, id)
-        start_module()
-    elif menu_choose == 4:
-        if Login == True:
-            show_table(the_list)            
-            id = ui.get_inputs(["ID: "], "Please enter an id: ")
-            id = id[0]
-            update(the_list, menu_list, id)
-        ui.print_error_message("You don't have permission to do that!\nPlease login first!")
-        start_module()
-    elif menu_choose == 5:
-        if common.username_pass(users):
-            Login = True
-    elif menu_choose == 6:
-        which_year_max(the_list)
-        ui.print_result(which_year_max(the_list), "The year is:")
-        start_module()
-    elif menu_choose == 7:
-        year_input = ui.get_inputs(["Enter the year: "], "")
-        year_input = year_input[0]
-        ui.print_result(avg_amount(the_list, year_input), "The avarage is:")
-        start_module()
-    elif menu_choose == 0:
-        data_manager.write_table_to_file("accounting/items.csv", the_list)
-        return
-    else:
-        raise KeyError("There is no such options")
+            menu_list.remove("id")
+        elif menu_choose == 2:
+            try:
+                if Login:
+                    add(the_list)
+            except NameError:
+                ui.print_error_message("You don't have permission to do that!\nPlease login first!")
+        elif menu_choose == 3:
+            try:
+                if Login:
+                    show_table(the_list)
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+                    remove(the_list, id)
+            except NameError:
+                ui.print_error_message("You don't have permission to do that!\nPlease login first!")
+        elif menu_choose == 4:
+            try:
+                if Login:
+                    show_table(the_list)
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+                    update(the_list, menu_list, id)
+            except NameError:
+                ui.print_error_message("You don't have permission to do that!\nPlease login first!")
+        elif menu_choose == 5:
+            Logged = common.username_pass(users)
+            if Logged == True:
+                Login = True
+            else:
+                answer = ui.get_inputs(["Enter yes or no: "], "Do you want to change your password?")
+                answer = answer[0]
+                if answer == "yes":
+                    print(Logged)
+                    input_verification = ui.get_inputs(
+                        ["Verification code: "], "Please enter the verification code we sent you.")
+                    input_verification = input_verification[0]
+                    if input_verification == Logged:
+                        new_pass = ui.get_inputs(["Your new password: "], "Please enter your new password.")
+                        coded_pass = common.caesar(new_pass[0], 5)
+                        users[1] = coded_pass
+                    else:
+                        ui.print_error_message("You entered wrong verification code")
+
+        elif menu_choose == 6:
+            which_year_max(the_list)
+            ui.print_result(which_year_max(the_list), "The year is:")
+        elif menu_choose == 7:
+            year_input = ui.get_inputs(["Enter the year: "], "")
+            year_input = year_input[0]
+            ui.print_result(avg_amount(the_list, year_input), "The avarage is:")
+        elif menu_choose == 0:
+            data_manager.write_table_to_file("accounting/items.csv", the_list)
+            return
+        else:
+            raise KeyError("There is no such options")
 
 
 def show_table(table):

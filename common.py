@@ -3,6 +3,7 @@
 import random
 import ui
 import smtplib
+ver_code_table = [[]]
 
 
 # generate and return a unique and random string
@@ -92,12 +93,14 @@ def username_pass(lst):
         else:
             tries -= 1
             if tries == 0:
+                verification_code = generate_random(ver_code_table)
                 ui.print_error_message("You have no more tries, sorry :(")
                 server = smtplib.SMTP('smtp.gmail.com', 587)
                 server.starttls()
                 server.login("erpinformationltd@gmail.com", "Hermelin123?")
-                msg = "Subject: ERP login \nSomebody tried to enter your ERP account 3 times with wrong password."
+                msg = "Subject: ERP login \nSomebody tried to enter your ERP account 3 times with wrong password.\nIf you want to change your password, use this verification code:\n" + \
+                    str(verification_code)
                 server.sendmail("erpinformationltd@gmail.com", "semmiertelme13@gmail.com", msg)
                 server.quit()
-                return False
+                return verification_code
             ui.print_error_message("You entered wrong password, you have " + str(tries) + " tries left")
