@@ -2,7 +2,7 @@ import os
 import ui
 import data_manager
 import common
-
+e_mail = "semmiertelme13@gmail.com"
 the_list = data_manager.get_table_from_file("accounting/items.csv")
 menu_list = ["month:", "day:", "year:", "type:", "amount:"]
 Login = False
@@ -49,7 +49,7 @@ def start_module():
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 5:
             os.system('cls')
-            Logged = common.username_pass(users)
+            Logged = common.username_pass(users, e_mail)
             if Logged == True:
                 print("You logged in succesfully.")
                 Login = True

@@ -67,7 +67,7 @@ def caesar(plaintext, shift):
     return plaintext.translate(table)
 
 
-def username_pass(lst):
+def username_pass(lst, mail):
     tries = 3
     while True:
         User = ui.get_inputs(["Username: ", "Password: "], "Please provide the console informations")
@@ -86,9 +86,9 @@ def username_pass(lst):
                 server = smtplib.SMTP('smtp.gmail.com', 587)
                 server.starttls()
                 server.login("erpinformationltd@gmail.com", "Hermelin123?")
-                msg = "Subject: ERP login \nSomebody tried to enter your ERP account 3 times with wrong password.\nIf you want to change your password, use this verification code:\n" + \
+                msg = "Subject: ERP login \n" + "Dear " + str(lst[0][0]) + "," + "\nSomebody tried to enter your ERP account 3 times with wrong password.\nIf you want to change your password, use this verification code:\n" + \
                     str(verification_code)
-                server.sendmail("erpinformationltd@gmail.com", "semmiertelme13@gmail.com", msg)
+                server.sendmail("erpinformationltd@gmail.com", mail, msg)
                 server.quit()
                 return verification_code
             ui.print_error_message("\nYou entered wrong password, you have " + str(tries) + " tries left\n")
