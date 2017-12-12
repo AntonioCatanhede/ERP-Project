@@ -14,9 +14,6 @@ import data_manager
 from sales import sales
 from crm import crm
 
-sales_list = data_manager.get_table_from_file("sales/sales.csv")
-crm_list = data_manager.get_table_from_file("crm/customers.csv")
-
 
 def start_module():
     """
@@ -36,10 +33,10 @@ def start_module():
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
-        ui.print_result(get_the_last_buyer_name(sales_list,crm_list),"The last buyer's name: ")
+        ui.print_result(get_the_last_buyer_name(), "The last buyer's name: ")
         start_module()
     elif menu_choose == 2:
-        ui.print_result(get_the_last_buyer_id(sales_list),"The last buyer's id: ")
+        ui.print_result(get_the_last_buyer_id(), "The last buyer's id: ")
         start_module()
     elif menu_choose == 3:
         get_the_buyer_name_spent_most_and_the_money_spent()
@@ -59,7 +56,7 @@ def start_module():
         raise KeyError("There is no such options")
 
 
-def get_the_last_buyer_name(lst1, lst2):
+def get_the_last_buyer_name():
     """
     Returns the customer _name_ of the customer made sale last.
 
@@ -67,21 +64,22 @@ def get_the_last_buyer_name(lst1, lst2):
         Customer name of the last buyer
     """
 
-    temp_id = sales.get_item_id_sold_last_from_table(lst1)
-    my_id=sales.get_customer_id_by_sale_id_from_table(lst1, temp_id)
-    return crm.get_name_by_id_from_table(lst2, my_id)
+    temp_id = sales.get_item_id_sold_last()
+    print(temp_id)
+    my_id = sales.get_customer_id_by_sale_id(temp_id)
+    print(my_id)
+    return crm.get_name_by_id(my_id)
 
 
-def get_the_last_buyer_id(lst1):
+def get_the_last_buyer_id():
     """
     Returns the customer _id_ of the customer made sale last.
 
     Returns:
         Customer id of the last buyer
     """
-    temp_id = sales.get_item_id_sold_last_from_table(lst1)
-    return sales.get_customer_id_by_sale_id_from_table(lst1, temp_id)
-
+    temp_id = sales.get_item_id_sold_last()
+    return sales.get_customer_id_by_sale_id(temp_id)
 
 
 def get_the_buyer_name_spent_most_and_the_money_spent():
@@ -150,5 +148,3 @@ def get_the_most_frequent_buyers_ids(num=1):
     # your code
 
     pass
-
-get_the_last_buyer_name(sales_list, crm_list)
