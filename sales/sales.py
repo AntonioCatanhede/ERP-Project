@@ -213,6 +213,10 @@ def get_title_by_id(id):
     Returns:
         str the title of the item
     """
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    for line in the_list:
+        if line[0] == id:
+            return line[1]
 
 
 def get_title_by_id_from_table(table, id):
@@ -240,9 +244,19 @@ def get_item_id_sold_last():
         (str) the _id_ of the item that was sold most recently.
     """
 
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    dates_id = []
+    date = []
+    date_lst = []
+    for line in the_list:
+        date = int(str(line[5]) + str(line[3]) + str(line[4]))
+        date_id = [date, line[0]]
+        dates_id.append(date_id)
+    for item in dates_id:
+        date_lst.append(item[0])
+    for item in dates_id:
+        if max(date_lst) in item:
+            return item[1]
 
 
 def get_item_id_sold_last_from_table(table):
@@ -257,10 +271,10 @@ def get_item_id_sold_last_from_table(table):
     """
     dates_id = []
     date = []
-    date_lst=[]
+    date_lst = []
     for line in table:
         date = int(str(line[5]) + str(line[3]) + str(line[4]))
-        date_id=[date, line[0]]
+        date_id = [date, line[0]]
         dates_id.append(date_id)
     for item in dates_id:
         date_lst.append(item[0])
@@ -303,10 +317,13 @@ def get_the_sum_of_prices(item_ids):
     Returns:
         (number) the sum of the items' prices
     """
-
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    summa = 0
+    for item in item_ids:
+        for line in the_list:
+            if item in line:
+                summa += line[2]
+    return summa
 
 
 def get_the_sum_of_prices_from_table(table, item_ids):
@@ -339,9 +356,15 @@ def get_customer_id_by_sale_id(sale_id):
          customer_id that belongs to the given sale id
     """
 
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    customer_id = ""
+    for line in the_list:
+        if sale_id in line:
+            customer_id = line[6]
+    if customer_id == "":
+        return None
+    else:
+        return customer_id
 
 
 def get_customer_id_by_sale_id_from_table(table, sale_id):
@@ -372,9 +395,11 @@ def get_all_customer_ids():
          set of customer_ids that are present in the table
     """
 
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    ids = set()
+    for line in the_list:
+        ids.append(line[6])
+    return ids
 
 
 def get_all_customer_ids_from_table(table):
@@ -403,9 +428,24 @@ def get_all_sales_ids_for_customer_ids():
          all the sales id belong to the given customer_id
     """
 
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    my_dict = {}
+    customer_ids = set()
+    sale_ids = set()
+    for line in the_list:
+        customer_ids.append(line[6])
+        sale_ids.append(line[0])
+    for i in range(len(customer_ids)):
+        for k in range(len(sale_ids)):
+            if customer_ids[i] in line and sale_ids[k] in line:
+                the_key = customer_ids[i]
+                the_value = sale_ids[k]
+                my_dict[customer_ids]
+                try:
+                    my_dict[the_key].append(the_value)
+                except KeyError:
+                    my_dict[the_key] = [the_value]
+    return my_dict
 
 
 def get_all_sales_ids_for_customer_ids_form_table(table):
@@ -449,9 +489,18 @@ def get_num_of_sales_per_customer_ids():
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
 
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("sales/sales.csv")
+    my_list = []
+    my_count = {}
+    sum_ids = 0
+    for line in the_list:
+        my_list.append(line[6])
+    for item in my_list:
+        if item in my_count:
+            my_count[item] += 1
+        else:
+            my_count[item] = 1
+    return my_count
 
 
 def get_num_of_sales_per_customer_ids_from_table(table):
@@ -464,14 +513,14 @@ def get_num_of_sales_per_customer_ids_from_table(table):
      Returns:
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
-    my_list=[]
-    my_count={}
-    sum_ids=0
+    my_list = []
+    my_count = {}
+    sum_ids = 0
     for line in table:
         my_list.append(line[6])
     for item in my_list:
         if item in my_count:
             my_count[item] += 1
-        else :
+        else:
             my_count[item] = 1
     return my_count
