@@ -29,7 +29,7 @@ def start_module():
 
     ui.print_menu(
         "Data analyser", ["Last buyer name", "Last buyer id", "Name of the most money spent", "Id of the most money spent",
-                          "Name of the most frequent buyers", "Id of the most frequent buyers"], "Go back to main menu")
+                          "Name of the most frequent buyer(s)", "Id of the most frequent buyer(s)"], "Go back to main menu")
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
@@ -39,16 +39,17 @@ def start_module():
         ui.print_result(get_the_last_buyer_id(), "The last buyer's id: ")
         start_module()
     elif menu_choose == 3:
-        ui.print_result(get_the_buyer_name_spent_most_and_the_money_spent(),"The customer who spent the most money: ")
+        ui.print_result(get_the_buyer_name_spent_most_and_the_money_spent(), "The customer who spent the most money: ")
         start_module()
     elif menu_choose == 4:
-        ui.print_result(get_the_buyer_id_spent_most_and_the_money_spent(),"The customer id  who spent the most money: ")
+        ui.print_result(get_the_buyer_id_spent_most_and_the_money_spent(),
+                        "The customer id  who spent the most money: ")
         start_module()
     elif menu_choose == 5:
-        get_the_most_frequent_buyers_names(num=1)
-        start_module
+        ui.print_result(get_the_most_frequent_buyers_names(2), "Name of the most frequent buyer(s)")
+        start_module()
     elif menu_choose == 6:
-        get_the_most_frequent_buyers_ids(num=1)
+        ui.print_result(get_the_most_frequent_buyers_ids(3), "id of the most frequent buyer(s)")
         start_module()
     elif menu_choose == 0:
         return
@@ -132,9 +133,16 @@ def get_the_most_frequent_buyers_names(num=1):
         Ordered list of tuples of customer names and num of sales
     """
 
-    # your code
-
-    pass
+    dict = sales.get_num_of_sales_per_customer_ids()
+    my_lst = []
+    for i in dict:
+        name = crm.get_name_by_id(i)
+        appendable = [name, dict[i]]
+        my_lst.append(appendable)
+    my_lst.sort(key=lambda x: x[1], reverse=True)
+    for i in range(len(my_lst)):
+        my_lst[i] = tuple(my_lst[i])
+    return my_lst[0:num]
 
 
 def get_the_most_frequent_buyers_ids(num=1):
@@ -150,7 +158,12 @@ def get_the_most_frequent_buyers_ids(num=1):
     Returns:
         Ordered list of tuples of customer ids and num of sales
     """
-
-    # your code
-
-    pass
+    dict = sales.get_num_of_sales_per_customer_ids()
+    my_lst = []
+    for i in dict:
+        appendable = [i, dict[i]]
+        my_lst.append(appendable)
+    my_lst.sort(key=lambda x: x[1], reverse=True)
+    for i in range(len(my_lst)):
+        my_lst[i] = tuple(my_lst[i])
+    return my_lst[0:num]
