@@ -1,28 +1,12 @@
-# implement commonly used functions here
-
 import random
 import ui
 import smtplib
+import data_manager
+import os
 ver_code_table = [[]]
 
 
-# generate and return a unique and random string
-# other expectations:
-# - at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letter
-# - it must be unique in the list
-#
-# @table: list of lists
-# @generated: string - randomly generated string (unique in the @table)
 def generate_random(table):
-    """
-    Generates random and unique string. Used for id/key generation.
-
-    Args:
-        table: list containing keys. Generated string should be different then all of them
-
-    Returns:
-        Random and unique string
-    """
     while True:
         generated = ''
 
@@ -50,6 +34,7 @@ def convert_to_list(csv_file):
 
 def common_add(table, list):
     new_item = (ui.get_inputs(list, "Please provide the console informations"))
+    os.system('cls')
     new_item.insert(0, generate_random(table))
     table.append(new_item)
     return table
@@ -68,6 +53,7 @@ def common_update(table, list, id_):
         if id_ in table[i]:
             table[i] = []
             new_item = (ui.get_inputs(list, "Please provide the console informations"))
+            os.system('cls')
             new_item.insert(0, id_)
             for items in new_item:
                 table[i].append(items)
@@ -85,10 +71,12 @@ def username_pass(lst):
     tries = 3
     while True:
         User = ui.get_inputs(["Username: ", "Password: "], "Please provide the console informations")
+        os.system('cls')
         password = User[1]
         new_pass = caesar(password, 5)
         User[1] = new_pass
-        if User in lst:
+        User = [[User[0]], [User[1]]]
+        if User == lst:
             return True
         else:
             tries -= 1
@@ -103,4 +91,26 @@ def username_pass(lst):
                 server.sendmail("erpinformationltd@gmail.com", "semmiertelme13@gmail.com", msg)
                 server.quit()
                 return verification_code
-            ui.print_error_message("You entered wrong password, you have " + str(tries) + " tries left")
+            ui.print_error_message("\nYou entered wrong password, you have " + str(tries) + " tries left\n")
+
+
+def new_password_request(ver_code, user, filename):
+    answer = ui.get_inputs(["Enter yes or no: "], "Do you want to change your password?\n")
+    os.system('cls')
+    answer = answer[0]
+    if answer == "yes":
+        input_verification = ui.get_inputs(["Verification code: "], "Please enter the verification code we sent you.\n")
+        input_verification = input_verification[0]
+        os.system('cls')
+        if input_verification == ver_code:
+            new_pass = ui.get_inputs(["Your new password: "], "Please enter your new password.\n")
+            os.system('cls')
+            coded_pass = caesar(new_pass[0], 5)
+            psword = coded_pass
+            Username = user[0][0]
+            table_users = [[Username], [psword]]
+            data_manager.write_table_to_file(filename, table_users)
+            print("Your code is succesfully changed.")
+        else:
+            os.system('cls')
+            ui.print_error_message("\nYou entered wrong verification code\n")
