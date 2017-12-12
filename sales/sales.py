@@ -36,7 +36,6 @@ def start_module():
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
-        print(get_num_of_sales_per_customer_ids())
         show_table(the_list)
         menu_list.remove("id")
         start_module()
