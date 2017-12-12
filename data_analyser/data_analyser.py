@@ -28,7 +28,7 @@ def start_module():
     # your code
 
     ui.print_menu(
-        "Data analyser", ["Last buyer name", "Last buyer id", "Name of the most spent", "Id of the most spent",
+        "Data analyser", ["Last buyer name", "Last buyer id", "Name of the most money spent", "Id of the most money spent",
                           "Name of the most frequent buyers", "Id of the most frequent buyers"], "Go back to main menu")
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
@@ -39,10 +39,10 @@ def start_module():
         ui.print_result(get_the_last_buyer_id(), "The last buyer's id: ")
         start_module()
     elif menu_choose == 3:
-        get_the_buyer_name_spent_most_and_the_money_spent()
+        ui.print_result(get_the_buyer_name_spent_most_and_the_money_spent(),"The customer who spent the most money: ")
         start_module()
     elif menu_choose == 4:
-        get_the_buyer_id_spent_most_and_the_money_spent()
+        ui.print_result(get_the_buyer_id_spent_most_and_the_money_spent(),"The customer id  who spent the most money: ")
         start_module()
     elif menu_choose == 5:
         get_the_most_frequent_buyers_names(num=1)
@@ -65,9 +65,7 @@ def get_the_last_buyer_name():
     """
 
     temp_id = sales.get_item_id_sold_last()
-    print(temp_id)
     my_id = sales.get_customer_id_by_sale_id(temp_id)
-    print(my_id)
     return crm.get_name_by_id(my_id)
 
 
@@ -91,10 +89,14 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
    Returns:
         Tuple of customer name and the sum the customer spent
     """
-
-    # your code
-
-    pass
+    dictionary = sales.get_all_sales_ids_for_customer_ids()
+    maxim = 0
+    for i in dictionary:
+        if sales.get_the_sum_of_prices(dictionary[i]) > maxim:
+            maxim = sales.get_the_sum_of_prices(dictionary[i])
+            max_id = i
+    max_name = crm.get_name_by_id(max_id)
+    return (max_name, maxim)
 
 
 def get_the_buyer_id_spent_most_and_the_money_spent():
@@ -107,9 +109,13 @@ def get_the_buyer_id_spent_most_and_the_money_spent():
         Tuple of customer id and the sum the customer spent
     """
 
-    # your code
-
-    pass
+    dictionary = sales.get_all_sales_ids_for_customer_ids()
+    maxim = 0
+    for i in dictionary:
+        if sales.get_the_sum_of_prices(dictionary[i]) > maxim:
+            maxim = sales.get_the_sum_of_prices(dictionary[i])
+            max_id = i
+    return (max_id, maxim)
 
 
 def get_the_most_frequent_buyers_names(num=1):
