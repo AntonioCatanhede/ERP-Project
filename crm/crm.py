@@ -195,9 +195,15 @@ def get_name_by_id(id):
         str the name of the customer
     """
 
-    # your code
-
-    pass
+    the_list = data_manager.get_table_from_file("crm/customers.csv")
+    name = ""
+    for item in the_list:
+        if item[0] == id:
+            name = item[1]
+    if name == "":
+        return None
+    else:
+        return name
 
 
 def get_name_by_id_from_table(table, id):
