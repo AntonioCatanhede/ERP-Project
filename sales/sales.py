@@ -18,7 +18,7 @@ import data_manager
 import common
 
 the_list = data_manager.get_table_from_file("sales/sales.csv")
-menu_list = ["title:", "price:", "month:", "day:", "year:"]
+menu_list = ["title:", "price:", "month:", "day:", "year:", "customer_id"]
 
 
 def start_module():
@@ -36,6 +36,7 @@ def start_module():
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
+        print(get_num_of_sales_per_customer_ids())
         show_table(the_list)
         menu_list.remove("id")
         start_module()
@@ -341,7 +342,7 @@ def get_the_sum_of_prices_from_table(table, item_ids):
     for item in item_ids:
         for line in table:
             if item in line:
-                summa += line[2]
+                summa += int(line[2])
     return summa
 
 
@@ -396,10 +397,10 @@ def get_all_customer_ids():
     """
 
     the_list = data_manager.get_table_from_file("sales/sales.csv")
-    ids = set()
+    ids = []
     for line in the_list:
         ids.append(line[6])
-    return ids
+    return set(ids)
 
 
 def get_all_customer_ids_from_table(table):
@@ -410,10 +411,10 @@ def get_all_customer_ids_from_table(table):
     Returns:
          set of customer_ids that are present in the table
     """
-    ids = set()
+    ids = []
     for line in table:
         ids.append(line[6])
-    return ids
+    return set(ids)
 
 
 def get_all_sales_ids_for_customer_ids():
@@ -430,21 +431,11 @@ def get_all_sales_ids_for_customer_ids():
 
     the_list = data_manager.get_table_from_file("sales/sales.csv")
     my_dict = {}
-    customer_ids = set()
-    sale_ids = set()
-    for line in the_list:
-        customer_ids.append(line[6])
-        sale_ids.append(line[0])
-    for i in range(len(customer_ids)):
-        for k in range(len(sale_ids)):
-            if customer_ids[i] in line and sale_ids[k] in line:
-                the_key = customer_ids[i]
-                the_value = sale_ids[k]
-                my_dict[customer_ids]
-                try:
-                    my_dict[the_key].append(the_value)
-                except KeyError:
-                    my_dict[the_key] = [the_value]
+    for i in range(len(the_list)):
+        if the_list[i][6] not in my_dict:
+            my_dict[the_list[i][6]] = [the_list[i][0]]
+        else:
+            my_dict[the_list[i][6]].append(the_list[i][0])
     return my_dict
 
 
@@ -460,22 +451,11 @@ def get_all_sales_ids_for_customer_ids_form_table(table):
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
          all the sales id belong to the given customer_id
     """
-    my_dict = {}
-    customer_ids = set()
-    sale_ids = set()
-    for line in table:
-        customer_ids.append(line[6])
-        sale_ids.append(line[0])
-    for i in range(len(customer_ids)):
-        for k in range(len(sale_ids)):
-            if customer_ids[i] in line and sale_ids[k] in line:
-                the_key = customer_ids[i]
-                the_value = sale_ids[k]
-                my_dict[customer_ids]
-                try:
-                    my_dict[the_key].append(the_value)
-                except KeyError:
-                    my_dict[the_key] = [the_value]
+    for i in range(len(table)):
+        if the_list[i][6] not in my_dict:
+            my_dict[the_list[i][6]] = [the_list[i][0]]
+        else:
+            my_dict[the_list[i][6]].append(the_list[i][0])
     return my_dict
 
 
