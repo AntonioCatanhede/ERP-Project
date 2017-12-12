@@ -322,8 +322,8 @@ def get_the_sum_of_prices(item_ids):
     summa = 0
     for item in item_ids:
         for line in the_list:
-            if item in line:
-                summa += line[2]
+            if item == line[0]:
+                summa += int(line[2])
     return summa
 
 
@@ -341,7 +341,7 @@ def get_the_sum_of_prices_from_table(table, item_ids):
     summa = 0
     for item in item_ids:
         for line in table:
-            if item in line:
+            if item == line[0]:
                 summa += int(line[2])
     return summa
 
