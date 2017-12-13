@@ -58,9 +58,13 @@ def start_module():
             else:
                 common.new_password_request(Logged, users, "crm/password.csv")
         elif menu_choose == 6:
+            os.system('cls')
+            ui.print_result(get_longest_name_id(the_list), "The id of the longest name: ")
+        elif menu_choose == 7:
+            os.system('cls')
             ui.print_result(get_subscribed_emails(the_list), "Subscribers :")
-            start_module()
         elif menu_choose == 0:
+            os.system('cls')
             data_manager.write_table_to_file("crm/customers.csv", the_list)
             return
         else:
@@ -103,6 +107,8 @@ def update(table, list, id_):
             return comparable_list
         else:
             ui.print_error_message("\nYou entered wrong inputs\n")
+
+
 def get_longest_name_id(table):
     names = []
     longest_name = ""
@@ -121,12 +127,15 @@ def get_longest_name_id(table):
     for line in table:
         if longest_name in line:
             return line[0]
+
+
 def get_subscribed_emails(table):
     list = []
     for line in table:
         if line[3] == "1":
             list.append(line[2] + ";" + line[1])
     return list
+
 
 def get_name_by_id(id):
 
