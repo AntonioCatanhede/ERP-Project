@@ -1,66 +1,74 @@
-# data structure:
-# id: string
-#     Unique and random generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
-# name: string
-# manufacturer: string
-# purchase_date: number (year)
-# durability: number (year)
-
-
-# importing everything you need
 import os
-# User interface module
 import ui
-# data manager module
 import data_manager
-# common module
 import common
 
+e_mail = "semmiertelme13@gmail.com"
+Login = False
 the_list = data_manager.get_table_from_file("inventory/inventory.csv")
 menu_list = ["name:", "manufacturer:", "purchase_date:", "durability:"]
 
 
 def start_module():
-    """
-    Starts this module and displays its menu.
-    User can access default special features from here.
-    User can go back to main menu from here.
-
-    Returns:
-        None
-    """
-    ui.print_menu("Inventory", ["show_table", "add", "remove", "update", "avaliable items",
-                                "average durability by manufacturers"], "Go back to main menu")
-    menu_choose_list = ui.get_inputs(["Choose: "], "")
-    menu_choose = int(menu_choose_list[0])
-    if menu_choose == 1:
-        show_table(the_list)
-        menu_list.remove("id")
-        start_module()
-    elif menu_choose == 2:
-        add(the_list)
-        start_module()
-    elif menu_choose == 3:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        remove(the_list, id)
-        start_module()
-    elif menu_choose == 4:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        update(the_list, menu_list, id)
-        start_module()
-    elif menu_choose == 5:
-        ui.print_result(get_available_items(the_list), "Avaible items: ")
-        start_module()
-    elif menu_choose == 6:
-        ui.print_result(get_average_durability_by_manufacturers(the_list), "The avarage durability: ")
-        start_module()
-    elif menu_choose == 0:
-        data_manager.write_table_to_file("inventory/inventory.csv", the_list)
-        return
-    else:
-        raise KeyError("There is no such options")
+    while True:
+        users = data_manager.get_table_from_file("inventory/password.csv")
+        ui.print_menu("Inventory", ["show_table", "add", "remove", "update", "login", "avaliable items",
+                                    "average durability by manufacturers"], "Go back to main menu")
+        menu_choose_list = ui.get_inputs(["Choose: "], "")
+        menu_choose = int(menu_choose_list[0])
+        if menu_choose == 1:
+            os.system('clear')
+            show_table(the_list)
+            menu_list.remove("id")
+            ui.get_inputs(["Press a button: "], "")
+            os.system('clear')
+        elif menu_choose == 2:
+            os.system('clear')
+            try:
+                if Login:
+                    add(the_list)
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 3:
+            os.system('clear')
+            try:
+                if Login:
+                    show_table(the_list)
+                    menu_list.remove("id")
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 4:
+            os.system('clear')
+            try:
+                if Login:
+                    show_table(the_list)
+                    menu_list.remove("id")
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+                    update(the_list, menu_list, id)
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 5:
+            os.system('clear')
+            Logged = common.username_pass(users, e_mail)
+            if Logged == True:
+                print("You logged in succesfully.")
+                Login = True
+            else:
+                common.new_password_request(Logged, users, "inventory/password.csv")
+        elif menu_choose == 6:
+            os.system('clear')
+            ui.print_result(get_available_items(the_list), "Avaible items: ")
+        elif menu_choose == 7:
+            os.system('clear')
+            ui.print_result(get_average_durability_by_manufacturers(the_list), "The avarage durability: ")
+        elif menu_choose == 0:
+            data_manager.write_table_to_file("inventory/inventory.csv", the_list)
+            return
+        else:
+            raise KeyError("There is no such options")
 
 
 def show_table(table):
