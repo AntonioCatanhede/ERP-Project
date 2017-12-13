@@ -3,10 +3,9 @@ import ui
 import smtplib
 import data_manager
 import os
-ver_code_table = [[]]
 
 
-def generate_random(table):
+def generate_random(table=[[]]):
     while True:
         generated = ''
 
@@ -81,7 +80,7 @@ def username_pass(lst, mail):
         else:
             tries -= 1
             if tries == 0:
-                verification_code = generate_random(ver_code_table)
+                verification_code = generate_random()
                 ui.print_error_message("You have no more tries, sorry :(")
                 server = smtplib.SMTP('smtp.gmail.com', 587)
                 server.starttls()

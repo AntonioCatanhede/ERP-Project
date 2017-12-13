@@ -33,6 +33,7 @@ def start_module():
             try:
                 if Login:
                     show_table(the_list)
+                    menu_list.remove("id")
                     id = ui.get_inputs(["ID: "], "Please enter an id: ")
                     id = id[0]
             except NameError:
@@ -42,6 +43,7 @@ def start_module():
             try:
                 if Login:
                     show_table(the_list)
+                    menu_list.remove("id")
                     id = ui.get_inputs(["ID: "], "Please enter an id: ")
                     id = id[0]
                     update(the_list, menu_list, id)
@@ -75,7 +77,6 @@ def start_module():
 def show_table(table):
     menu_list.insert(0, "id")
     ui.print_table(table, menu_list)
-    remove(table, id)
 
 
 def add(table):
