@@ -4,7 +4,7 @@ import data_manager
 import common
 
 e_mail = "semmiertelme13@gmail.com"
-Login = Fals
+Login = False
 the_list = data_manager.get_table_from_file("sales/sales.csv")
 menu_list = ["title:", "price:", "month:", "day:", "year:", "customer_id"]
 
@@ -20,68 +20,69 @@ def start_module():
     """
 
 
-while True:
-    users = data_manager.get_table_from_file("sales/password.csv")
-    ui.print_menu("Sales", ["show_table", "add", "remove", "update", "login",
-                            "lowest price item", "get item between date"], "Go back to main menu")
-    menu_choose_list = ui.get_inputs(["Choose: "], "")
-    menu_choose = int(menu_choose_list[0])
-    if menu_choose == 1:
-        os.system('clear')
-        show_table(the_list)
-        menu_list.remove("id")
-        ui.get_inputs(["Press a button: "], "")
-        os.system('clear')
-    elif menu_choose == 2:
-        os.system('clear')
-        try:
-            if Login:
-                add(the_list)
-        except NameError:
-            ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
-    elif menu_choose == 3:
-        os.system('clear')
-        try:
-            if Login:
-                show_table(the_list)
-                menu_list.remove("id")
-                id = ui.get_inputs(["ID: "], "Please enter an id: ")
-                id = id[0]
-        except NameError:
-            ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
-    elif menu_choose == 4:
-        os.system('clear')
-        try:
-            if Login:
-                show_table(the_list)
-                menu_list.remove("id")
-                id = ui.get_inputs(["ID: "], "Please enter an id: ")
-                id = id[0]
-                update(the_list, menu_list, id)
-        except NameError:
-            ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
-    elif menu_choose == 5:
-        os.system('clear')
-        Logged = common.username_pass(users, e_mail)
-        if Logged == True:
-            print("You logged in succesfully.")
-            Login = True
+    while True:
+        users = data_manager.get_table_from_file("sales/password.csv")
+        ui.print_menu("Sales", ["show_table", "add", "remove", "update", "login",
+                                "lowest price item", "get item between date"], "Go back to main menu")
+        menu_choose_list = ui.get_inputs(["Choose: "], "")
+        menu_choose = int(menu_choose_list[0])
+        if menu_choose == 1:
+            os.system('clear')
+            show_table(the_list)
+            menu_list.remove("id")
+            ui.get_inputs(["Press a button: "], "")
+            os.system('clear')
+        elif menu_choose == 2:
+            os.system('clear')
+            try:
+                if Login:
+                    add(the_list)
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 3:
+            os.system('clear')
+            try:
+                if Login:
+                    show_table(the_list)
+                    menu_list.remove("id")
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 4:
+            os.system('clear')
+            try:
+                if Login:
+                    show_table(the_list)
+                    menu_list.remove("id")
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+                    update(the_list, menu_list, id)
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 5:
+            os.system('clear')
+            Logged = common.username_pass(users, e_mail)
+            if Logged == True:
+                print("You logged in succesfully.")
+                Login = True
+            else:
+                common.new_password_request(Logged, users, "sales/password.csv")
+        elif menu_choose == 6:
+            os.system('clear')
+            ui.print_result(get_lowest_price_item_id(the_list), "was sold for the lowest price")
+        elif menu_choose == 7:
+            os.system('clear')
+            dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to",
+                                "year to"], "enter -date from and -date to want to observ")
+            ui.print_result(get_items_sold_between(
+                the_list, dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]), "item(s) between the 2 given date")
+        elif menu_choose == 0:
+            os.system('clear')
+            data_manager.write_table_to_file("sales/sales.csv", the_list)
+            return
         else:
-            common.new_password_request(Logged, users, "sales/password.csv")
-    elif menu_choose == 6:
-        os.system('clear')
-        ui.print_result(get_lowest_price_item_id(the_list), "was sold for the lowest price")
-    elif menu_choose == 7:
-        os.system('clear')
-        dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to",
-                               "year to"], "enter -date from and -date to want to observ")
-        ui.print_result(get_items_sold_between(
-            the_list, dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]), "item(s) between the 2 given date")
-    elif menu_choose == 0:
-        data_manager.write_table_to_file("sales/sales.csv", the_list)
-        return
-    else:
-        raise KeyError("There is no such options")
+            raise KeyError("There is no such options")
 
 
 def show_table(table):
