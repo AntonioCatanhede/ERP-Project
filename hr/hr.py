@@ -17,20 +17,20 @@ def start_module():
         menu_choose_list = ui.get_inputs(["Choose: "], "")
         menu_choose = int(menu_choose_list[0])
         if menu_choose == 1:
-            os.system('cls')
+            os.system('clear')
             show_table(the_list)
             menu_list.remove("id")
             ui.get_inputs(["Press a button: "], "")
-            os.system('cls')
+            os.system('clear')
         elif menu_choose == 2:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     add(the_list)
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 3:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     show_table(the_list)
@@ -40,7 +40,7 @@ def start_module():
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 4:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     show_table(the_list)
@@ -51,7 +51,7 @@ def start_module():
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 5:
-            os.system('cls')
+            os.system('clear')
             Logged = common.username_pass(users, e_mail)
             if Logged == True:
                 print("You logged in succesfully.")
@@ -59,13 +59,13 @@ def start_module():
             else:
                 common.new_password_request(Logged, users, "hr/password.csv")
         elif menu_choose == 6:
-            os.system('cls')
+            os.system('clear')
             ui.print_result(get_oldest_person(the_list), "The oldest persons : ")
         elif menu_choose == 7:
-            os.system('cls')
+            os.system('clear')
             ui.print_result(get_persons_closest_to_average(the_list), "The closest to the average age : ")
         elif menu_choose == 0:
-            os.system('cls')
+            os.system('clear')
             data_manager.write_table_to_file("hr/persons.csv", the_list)
             return
         else:

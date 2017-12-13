@@ -16,20 +16,20 @@ def start_module():
         menu_choose_list = ui.get_inputs(["Choose: "], "")
         menu_choose = int(menu_choose_list[0])
         if menu_choose == 1:
-            os.system('cls')
+            os.system('clear')
             show_table(the_list)
             menu_list.remove("id")
             ui.get_inputs(["Press a button: "], "")
-            os.system('cls')
+            os.system('clear')
         elif menu_choose == 2:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     add(the_list)
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 3:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     show_table(the_list)
@@ -39,7 +39,7 @@ def start_module():
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 4:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     show_table(the_list)
@@ -50,7 +50,7 @@ def start_module():
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 5:
-            os.system('cls')
+            os.system('clear')
             Logged = common.username_pass(users, e_mail)
             if Logged == True:
                 print("You logged in succesfully.")
@@ -58,16 +58,16 @@ def start_module():
             else:
                 common.new_password_request(Logged, users, "accounting/password.csv")
         elif menu_choose == 6:
-            os.system('cls')
+            os.system('clear')
             which_year_max(the_list)
             ui.print_result(which_year_max(the_list), "The year is:")
         elif menu_choose == 7:
-            os.system('cls')
+            os.system('clear')
             year_input = ui.get_inputs(["Enter the year: "], "")
             year_input = year_input[0]
             ui.print_result(avg_amount(the_list, year_input), "The avarage is:")
         elif menu_choose == 0:
-            os.system('cls')
+            os.system('clear')
             data_manager.write_table_to_file("accounting/items.csv", the_list)
             return
         else:

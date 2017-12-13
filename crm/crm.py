@@ -16,20 +16,20 @@ def start_module():
         menu_choose_list = ui.get_inputs(["Choose: "], "")
         menu_choose = int(menu_choose_list[0])
         if menu_choose == 1:
-            os.system('cls')
+            os.system('clear')
             show_table(the_list)
             menu_list.remove("id")
             ui.get_inputs(["Press a button: "], "")
-            os.system('cls')
+            os.system('clear')
         elif menu_choose == 2:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     add(the_list)
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 3:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     show_table(the_list)
@@ -39,7 +39,7 @@ def start_module():
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 4:
-            os.system('cls')
+            os.system('clear')
             try:
                 if Login:
                     show_table(the_list)
@@ -50,7 +50,7 @@ def start_module():
             except NameError:
                 ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
         elif menu_choose == 5:
-            os.system('cls')
+            os.system('clear')
             Logged = common.username_pass(users, e_mail)
             if Logged == True:
                 print("You logged in succesfully.")
@@ -58,13 +58,13 @@ def start_module():
             else:
                 common.new_password_request(Logged, users, "crm/password.csv")
         elif menu_choose == 6:
-            os.system('cls')
+            os.system('clear')
             ui.print_result(get_longest_name_id(the_list), "The id of the longest name: ")
         elif menu_choose == 7:
-            os.system('cls')
+            os.system('clear')
             ui.print_result(get_subscribed_emails(the_list), "Subscribers :")
         elif menu_choose == 0:
-            os.system('cls')
+            os.system('clear')
             data_manager.write_table_to_file("crm/customers.csv", the_list)
             return
         else:

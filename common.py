@@ -33,7 +33,7 @@ def convert_to_list(csv_file):
 
 def common_add(table, list):
     new_item = (ui.get_inputs(list, "Please provide the console informations"))
-    os.system('cls')
+    os.system('clear')
     new_item.insert(0, generate_random(table))
     table.append(new_item)
     return table
@@ -52,7 +52,7 @@ def common_update(table, list, id_):
         if id_ in table[i]:
             table[i] = []
             new_item = (ui.get_inputs(list, "Please provide the console informations"))
-            os.system('cls')
+            os.system('clear')
             new_item.insert(0, id_)
             for items in new_item:
                 table[i].append(items)
@@ -70,7 +70,7 @@ def username_pass(lst, mail):
     tries = 3
     while True:
         User = ui.get_inputs(["Username: ", "Password: "], "Please provide the console informations")
-        os.system('cls')
+        os.system('clear')
         password = User[1]
         new_pass = caesar(password, 5)
         User[1] = new_pass
@@ -95,15 +95,15 @@ def username_pass(lst, mail):
 
 def new_password_request(ver_code, user, filename):
     answer = ui.get_inputs(["Enter yes or no: "], "Do you want to change your password?\n")
-    os.system('cls')
+    os.system('clear')
     answer = answer[0]
     if answer == "yes":
         input_verification = ui.get_inputs(["Verification code: "], "Please enter the verification code we sent you.\n")
         input_verification = input_verification[0]
-        os.system('cls')
+        os.system('clear')
         if input_verification == ver_code:
             new_pass = ui.get_inputs(["Your new password: "], "Please enter your new password.\n")
-            os.system('cls')
+            os.system('clear')
             coded_pass = caesar(new_pass[0], 5)
             psword = coded_pass
             Username = user[0][0]
@@ -111,5 +111,5 @@ def new_password_request(ver_code, user, filename):
             data_manager.write_table_to_file(filename, table_users)
             print("Your code is succesfully changed.")
         else:
-            os.system('cls')
+            os.system('clear')
             ui.print_error_message("\nYou entered wrong verification code\n")
