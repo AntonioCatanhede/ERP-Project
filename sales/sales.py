@@ -1,22 +1,10 @@
-# data structure:
-# id: string
-#     Unique and random generated (at least 2 special char()expect: ';'), 2 number, 2 lower and 2 upper case letter)
-# title: string
-# price: number (the actual sale price in $)
-# month: number
-# day: number
-# year: number
-# month,year and day combined gives the date the sale was made
-
-# importing everything you need
 import os
-# User interface module
 import ui
-# data manager module
 import data_manager
-# common module
 import common
 
+e_mail = "semmiertelme13@gmail.com"
+Login = Fals
 the_list = data_manager.get_table_from_file("sales/sales.csv")
 menu_list = ["title:", "price:", "month:", "day:", "year:", "customer_id"]
 
@@ -31,36 +19,64 @@ def start_module():
         None
     """
 
-    ui.print_menu("Sales", ["show_table", "add", "remove", "update",
+
+while True:
+    users = data_manager.get_table_from_file("sales/password.csv")
+    ui.print_menu("Sales", ["show_table", "add", "remove", "update", "login",
                             "lowest price item", "get item between date"], "Go back to main menu")
     menu_choose_list = ui.get_inputs(["Choose: "], "")
     menu_choose = int(menu_choose_list[0])
     if menu_choose == 1:
+        os.system('clear')
         show_table(the_list)
         menu_list.remove("id")
-        start_module()
+        ui.get_inputs(["Press a button: "], "")
+        os.system('clear')
     elif menu_choose == 2:
-        add(the_list)
-        start_module()
+        os.system('clear')
+        try:
+            if Login:
+                add(the_list)
+        except NameError:
+            ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
     elif menu_choose == 3:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        remove(the_list, id)
-        start_module()
+        os.system('clear')
+        try:
+            if Login:
+                show_table(the_list)
+                menu_list.remove("id")
+                id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                id = id[0]
+        except NameError:
+            ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
     elif menu_choose == 4:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        update(the_list, menu_list, id)
-        start_module()
+        os.system('clear')
+        try:
+            if Login:
+                show_table(the_list)
+                menu_list.remove("id")
+                id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                id = id[0]
+                update(the_list, menu_list, id)
+        except NameError:
+            ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
     elif menu_choose == 5:
-        ui.print_result(get_lowest_price_item_id(the_list), "was sold for the lowest price")
-        start_module()
+        os.system('clear')
+        Logged = common.username_pass(users, e_mail)
+        if Logged == True:
+            print("You logged in succesfully.")
+            Login = True
+        else:
+            common.new_password_request(Logged, users, "sales/password.csv")
     elif menu_choose == 6:
+        os.system('clear')
+        ui.print_result(get_lowest_price_item_id(the_list), "was sold for the lowest price")
+    elif menu_choose == 7:
+        os.system('clear')
         dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to",
                                "year to"], "enter -date from and -date to want to observ")
         ui.print_result(get_items_sold_between(
             the_list, dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]), "item(s) between the 2 given date")
-        start_module()
     elif menu_choose == 0:
         data_manager.write_table_to_file("sales/sales.csv", the_list)
         return
