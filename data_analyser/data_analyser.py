@@ -46,10 +46,20 @@ def start_module():
                         "The customer id  who spent the most money: ")
         start_module()
     elif menu_choose == 5:
-        ui.print_result(get_the_most_frequent_buyers_names(2), "Name of the most frequent buyer(s)")
+        input_number = ui.get_inputs(["Number: "], "Number(s) of the last buyers(max 3): ")
+        input_number = int(input_number[0])
+        if input_number < 4 and input_number > 0:
+            ui.print_result(get_the_most_frequent_buyers_names(input_number), "Name of the most frequent buyer(s)")
+        else:
+            ui.print_error_message("Incorrect input")
         start_module()
     elif menu_choose == 6:
-        ui.print_result(get_the_most_frequent_buyers_ids(3), "id of the most frequent buyer(s)")
+        input_number = ui.get_inputs(["Number: "], "Id(s) of the last buyers(max 3): ")
+        input_number = int(input_number[0])
+        if input_number < 4 and input_number > 0:
+            ui.print_result(get_the_most_frequent_buyers_ids(input_number), "Id of the most frequent buyer(s)")
+        else:
+            ui.print_error_message("Incorrect input")
         start_module()
     elif menu_choose == 0:
         return
@@ -167,3 +177,7 @@ def get_the_most_frequent_buyers_ids(num=1):
     for i in range(len(my_lst)):
         my_lst[i] = tuple(my_lst[i])
     return my_lst[0:num]
+
+
+def get_customer_who_did_not_buy_anything():
+    return
