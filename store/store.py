@@ -15,6 +15,8 @@ import data_manager
 # common module
 import common
 
+e_mail = "semmiertelme13@gmail.com"
+Login = False
 the_list = data_manager.get_table_from_file("store/games.csv")
 menu_list = ["title:", "manufacturer:", "price:", "in_stock:"]
 
@@ -28,39 +30,65 @@ def start_module():
     Returns:
         None
     """
-
-    ui.print_menu("Store", ["show_table", "add", "remove", "update",
-                            "manufacturer count", "stock avarage"], "Go back to main menu")
-    menu_choose_list = ui.get_inputs(["Choose: "], "")
-    menu_choose = int(menu_choose_list[0])
-    if menu_choose == 1:
-        show_table(the_list)
-        menu_list.remove("id")
-        start_module()
-    elif menu_choose == 2:
-        add(the_list)
-        start_module()
-    elif menu_choose == 3:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        remove(the_list, id)
-        start_module()
-    elif menu_choose == 4:
-        id = ui.get_inputs(["ID: "], "Please enter an id: ")
-        id = id[0]
-        update(the_list, menu_list, id)
-        start_module()
-    elif menu_choose == 5:
-        ui.print_result(get_counts_by_manufacturers(the_list), "Games by manufacturer:")
-        start_module()
-    elif menu_choose == 6:
-        manufacturer_input = ui.get_inputs(["Enter a manufacturer name : "], "The avarage game in stock")
-        manufacturer_input = manufacturer_input[0]
-        ui.print_result(get_average_by_manufacturer(the_list, manufacturer_input), "The avarage games in stock:")
-        start_module()
-    elif menu_choose == 0:
-        data_manager.write_table_to_file("store/games.csv", the_list)
-        return
+    while True:
+        users = data_manager.get_table_from_file("store/password.csv")
+        ui.print_menu("Store", ["show_table", "add", "remove", "update", "login",
+                                "manufacturer count", "stock avarage"], "Go back to main menu")
+        menu_choose_list = ui.get_inputs(["Choose: "], "")
+        menu_choose = int(menu_choose_list[0])
+        if menu_choose == 1:
+            os.system('clear')
+            show_table(the_list)
+            menu_list.remove("id")
+            ui.get_inputs(["Press a button: "], "")
+            os.system('clear')
+        elif menu_choose == 2:
+            os.system('clear')
+            try:
+                if Login:
+                    add(the_list)
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 3:
+            os.system('clear')
+            try:
+                if Login:
+                    show_table(the_list)
+                    menu_list.remove("id")
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 4:
+            os.system('clear')
+            try:
+                if Login:
+                    show_table(the_list)
+                    menu_list.remove("id")
+                    id = ui.get_inputs(["ID: "], "Please enter an id: ")
+                    id = id[0]
+                    update(the_list, menu_list, id)
+            except NameError:
+                ui.print_error_message("\nYou don't have permission to do that!\nPlease login first!\n")
+        elif menu_choose == 5:
+            os.system('clear')
+            Logged = common.username_pass(users, e_mail)
+            if Logged == True:
+                print("You logged in succesfully.")
+                Login = True
+            else:
+                common.new_password_request(Logged, users, "strore/password.csv")
+        elif menu_choose == 6:
+            os.system('clear')
+            ui.print_result(get_counts_by_manufacturers(the_list), "Games by manufacturer:")
+        elif menu_choose == 7:
+            os.system('clear')
+            manufacturer_input = ui.get_inputs(["Enter a manufacturer name : "], "The avarage game in stock")
+            manufacturer_input = manufacturer_input[0]
+            ui.print_result(get_average_by_manufacturer(the_list, manufacturer_input), "The avarage games in stock:")
+        elif menu_choose == 0:
+            data_manager.write_table_to_file("store/games.csv", the_list)
+            return
 
 
 def show_table(table):
