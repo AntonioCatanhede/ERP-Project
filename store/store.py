@@ -87,7 +87,9 @@ def start_module():
             manufacturer_input = manufacturer_input[0]
             ui.print_result(get_average_by_manufacturer(the_list, manufacturer_input), "The avarage games in stock:")
         elif menu_choose == 0:
-            data_manager.write_table_to_file("store/games.csv", the_list)
+            os.system('clear')
+            if ui.get_inputs(["Please enter yes or no: "], "Do you want to save your changes? ")[0] == "yes":
+                data_manager.write_table_to_file("store/games.csv", the_list)
             return
 
 

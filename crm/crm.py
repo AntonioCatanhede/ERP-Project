@@ -65,7 +65,8 @@ def start_module():
             ui.print_result(get_subscribed_emails(the_list), "Subscribers :")
         elif menu_choose == 0:
             os.system('clear')
-            data_manager.write_table_to_file("crm/customers.csv", the_list)
+            if ui.get_inputs(["Please enter yes or no: "], "Do you want to save your changes? ")[0] == "yes":
+                data_manager.write_table_to_file("crm/customers.csv", the_list)
             return
         else:
             raise KeyError("There is no such options")

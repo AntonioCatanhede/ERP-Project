@@ -19,7 +19,6 @@ def start_module():
         None
     """
 
-
     while True:
         users = data_manager.get_table_from_file("sales/password.csv")
         ui.print_menu("Sales", ["show_table", "add", "remove", "update", "login",
@@ -74,12 +73,13 @@ def start_module():
         elif menu_choose == 7:
             os.system('clear')
             dates = ui.get_inputs(["month from", "day from", "year from", "month to", "day to",
-                                "year to"], "enter -date from and -date to want to observ")
+                                   "year to"], "enter -date from and -date to want to observ")
             ui.print_result(get_items_sold_between(
                 the_list, dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]), "item(s) between the 2 given date")
         elif menu_choose == 0:
             os.system('clear')
-            data_manager.write_table_to_file("sales/sales.csv", the_list)
+            if ui.get_inputs(["Please enter yes or no: "], "Do you want to save your changes? ")[0] == "yes":
+                data_manager.write_table_to_file("sales/sales.csv", the_list)
             return
         else:
             raise KeyError("There is no such options")

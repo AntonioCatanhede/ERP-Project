@@ -65,7 +65,9 @@ def start_module():
             os.system('clear')
             ui.print_result(get_average_durability_by_manufacturers(the_list), "The avarage durability: ")
         elif menu_choose == 0:
-            data_manager.write_table_to_file("inventory/inventory.csv", the_list)
+            os.system('clear')
+            if ui.get_inputs(["Please enter yes or no: "], "Do you want to save your changes? ")[0] == "yes":
+                data_manager.write_table_to_file("inventory/inventory.csv", the_list)
             return
         else:
             raise KeyError("There is no such options")

@@ -68,7 +68,8 @@ def start_module():
             ui.print_result(avg_amount(the_list, year_input), "The avarage is:")
         elif menu_choose == 0:
             os.system('clear')
-            data_manager.write_table_to_file("accounting/items.csv", the_list)
+            if ui.get_inputs(["Please enter yes or no: "], "Do you want to save your changes? ")[0] == "yes":
+                data_manager.write_table_to_file("accounting/items.csv", the_list)
             return
         else:
             raise KeyError("There is no such options")
